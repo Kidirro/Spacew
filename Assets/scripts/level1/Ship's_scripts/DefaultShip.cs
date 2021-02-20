@@ -141,18 +141,20 @@ public class DefaultShip : MonoBehaviour
         }
         while (true)
         {
+            int i = 0;
             bool shoot = true;
-            foreach (GameObject ammo in RocketPool)
+            while (shoot & i < RocketPoolLimit & gameObject.layer == 12)
             {
-                if (shoot & ammo.activeSelf == false & gameObject.layer == 12)
+                GameObject ammo = RocketPool[i];
+                if (ammo.activeSelf == false)
                 {
-
                     ammo.transform.position = transform.position;
                     shoot = false;
                     ammo.transform.rotation = transform.rotation;
                     ammo.SetActive(true);
                     Shot_source.PlayOneShot(rocket_sound);
                 }
+                else i++;
             }
             yield return new WaitForSeconds((float)defaultfire_rate_rocket);
         }

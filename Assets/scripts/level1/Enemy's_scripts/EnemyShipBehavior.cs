@@ -118,8 +118,10 @@ public class EnemyShipBehavior : MonoBehaviour
         {
             yield return new WaitForSeconds(fire_rate);
             bool shoot = true;
-            foreach (GameObject ammo in AmmoPool)
+            int i = 0;
+            while (shoot & i < AmmoPoolLimit)
             {
+                GameObject ammo = AmmoPool[i];
                 if (shoot & ammo.activeSelf == false)
                 {
                     ammo.transform.position = transform.position;
@@ -127,7 +129,9 @@ public class EnemyShipBehavior : MonoBehaviour
                     ammo.transform.rotation = transform.rotation;
                     ammo.SetActive(true);
                 }
+                else i++;
             }
         }
+
     }
 }

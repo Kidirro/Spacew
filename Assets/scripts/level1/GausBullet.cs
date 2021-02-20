@@ -51,9 +51,12 @@ public class GausBullet : MonoBehaviour
         }
         else
         {
-            exp.transform.position = transform.position;
-            exp.SetActive(true);
-            exp.GetComponent<ParticleSystem>().Play();
+            if (exp)
+            {
+                exp.transform.position = transform.position;
+                exp.SetActive(true);
+                exp.GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 }

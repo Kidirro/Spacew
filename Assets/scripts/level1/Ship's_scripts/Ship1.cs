@@ -64,30 +64,33 @@ public class Ship1 : DefaultShip
 
     protected IEnumerator Shoot_coroutine()
     {
-        int i = -1;
+        int left = -1;
         while (true)
         {
+            int i = 0;
             bool shoot = true;
-            foreach (GameObject ammo in AmmoPool)
+            while (shoot & i < AmmoPoolLimit & gameObject.layer == 12)
             {
-                if (shoot & ammo.activeSelf == false & gameObject.layer == 12)
+                GameObject ammo = AmmoPool[i];
+                if (ammo.activeSelf == false)
                 {
-                    if (i > 0)
+                    if (left > 0)
                     {
                         ammo.transform.position = pos_fire1.transform.position;
-                        i = -i;
+                        left = -left;
                     }
                     else
                     {
                         ammo.transform.position = pos_fire2.transform.position;
 
-                        i = -i;
+                        left = -left;
                     }
                     shoot = false;
                     ammo.transform.rotation = transform.rotation;
                     ammo.SetActive(true);
                     Shot_source.PlayOneShot(shoot_sound);
                 }
+                else i++;
             }
             yield return new WaitForSeconds((float)GameManager.fire_rate);
         }

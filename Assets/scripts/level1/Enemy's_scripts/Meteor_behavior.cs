@@ -38,9 +38,9 @@ public class Meteor_behavior : MonoBehaviour
     {
         if (!meteor_array)
         {
-            ExplosionObject = (GameObject)Instantiate(explosion);
-            ExplosionObject.transform.position = meteor.transform.position;
-            ExplosionObject.SetActive(false);
+            //ExplosionObject = (GameObject)Instantiate(explosion);
+            //ExplosionObject.transform.position = meteor.transform.position;
+            //ExplosionObject.SetActive(false);
             health = (int) (default_health* transform.localScale.x);
             rb = GetComponent<Rigidbody2D>();
             rb.AddForce(new Vector2(0, -default_speed * (float)(ShipSpawner.time_count * 0.05)));
@@ -49,9 +49,9 @@ public class Meteor_behavior : MonoBehaviour
 
     private void OnEnable()
     {
-        ExplosionObject = (GameObject)Instantiate(explosion);
-        ExplosionObject.transform.position = meteor.transform.position;
-        ExplosionObject.SetActive(false);
+        //ExplosionObject = (GameObject)Instantiate(explosion);
+        //ExplosionObject.transform.position = meteor.transform.position;
+        //ExplosionObject.SetActive(false);
         health = (int)(default_health * transform.localScale.x);
         rb = GetComponent<Rigidbody2D>();
         rb.AddForce(new Vector2(0, -default_speed * (float)(ShipSpawner.time_count * 0.05)));
@@ -85,8 +85,8 @@ public class Meteor_behavior : MonoBehaviour
         if (gameObject != null)
         {
             GameManager.score += price;
-            ExplosionObject.transform.position = Vector_pos;
-            ExplosionObject.SetActive(true);
+            //ExplosionObject.transform.position = Vector_pos;
+            //ExplosionObject.SetActive(true);
             if (transform.localScale.x > 1)
             {
                 for (int i = 0; i < Random.Range(2, 4); i++)

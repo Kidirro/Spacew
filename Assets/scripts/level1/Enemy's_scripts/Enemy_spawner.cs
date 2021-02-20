@@ -153,10 +153,12 @@ public class Enemy_spawner : MonoBehaviour
     {
         while (true)
         {
+            int i = 0;
             bool shoot = true;
-            foreach (GameObject Meteor in MeteorPool)
+            while (shoot & i < MeteorPoolLimit)
             {
-                if (shoot & Meteor.activeSelf == false)
+                GameObject Meteor = MeteorPool[i];
+                if (Meteor.activeSelf == false)
                 {
                     Meteor.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x), transform.position.y);
                     shoot = false;
@@ -177,6 +179,7 @@ public class Enemy_spawner : MonoBehaviour
                     }
                     Meteor.SetActive(true);
                 }
+                else i++;
             }
             meteor_fire_rate = meteor_fire_rate * meteor_koef;
             yield return new WaitForSeconds((float)meteor_fire_rate);
@@ -187,16 +190,19 @@ public class Enemy_spawner : MonoBehaviour
     {
         while (true)
         {
+            int i = 0;
             bool shoot = true;
-            foreach (GameObject Ship in Ship1Pool)
+            while (shoot & i < Ship1PoolLimit)
             {
+                GameObject Ship = Ship1Pool[i];
                 if (shoot & Ship.activeSelf == false)
                 {
-                    Ship.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x+7, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x)-7, transform.position.y);
+                    Ship.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x + 7, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x) - 7, transform.position.y);
                     Ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
                     shoot = false;
                     Ship.SetActive(true);
                 }
+                else i++;
             }
             fire_rate1 = fire_rate1 * koef1;
             yield return new WaitForSeconds((float)fire_rate1);
@@ -207,17 +213,20 @@ public class Enemy_spawner : MonoBehaviour
     {
         while (true)
         {
+            int i = 0;
             bool shoot = true;
-            foreach (GameObject Ship in Ship2Pool)
+            while (shoot & i < Ship2PoolLimit)
             {
+                GameObject Ship = Ship2Pool[i];
                 if (shoot & Ship.activeSelf == false)
                 {
                     Ship.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x + 7, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x) - 7, transform.position.y);
                     shoot = false;
                     Ship.SetActive(true);
                 }
+                else i++;
             }
-            fire_rate2 = fire_rate2 * koef1;
+            fire_rate2 = fire_rate2 * koef2;
             yield return new WaitForSeconds((float)fire_rate2);
         }
     }

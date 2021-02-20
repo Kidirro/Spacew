@@ -142,16 +142,19 @@ public class EnemyShip2Behavior : MonoBehaviour
             if (last_shot+ fire_rate<= ShipSpawner.time_count)
             {
                 bool shoot = true;
-                foreach (GameObject ammo in AmmoPool)
+                int i = 0;
+                while (shoot & i < AmmoPoolLimit)
                 {
+                    GameObject ammo = AmmoPool[i];
                     if (shoot & ammo.activeSelf == false)
                     {
                         ammo.transform.position = Gun.transform.position;
                         shoot = false;
-                        ammo.transform.rotation =Quaternion.Euler(0,0, 180+Gun.transform.rotation.eulerAngles.z);
+                        ammo.transform.rotation = Quaternion.Euler(0, 0, 180 + Gun.transform.rotation.eulerAngles.z);
                         ammo.SetActive(true);
                         last_shot = (float)ShipSpawner.time_count;
                     }
+                    else i++;
                 }
             }
         }
