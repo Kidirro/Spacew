@@ -23,6 +23,9 @@ public class Main_menu_UI : MonoBehaviour
             PlayerPrefs.SetInt("Unlocked_ships", (int)Mathf.Pow(10, Ships.Length - 1) + PlayerPrefs.GetInt("Unlocked_ships"));
         }
         Debug.Log(PlayerPrefs.GetInt("Unlocked_ships"));
+        GameManager.first_play =PlayerPrefs.GetInt("First_play")==0;
+        Debug.Log(GameManager.first_play?"Первый запуск":"Не первый запуск");
+        PlayerPrefs.SetInt("First_play",-1);
         GameManager.Unlocked_ship = new bool[Ships.Length];
         GameManager.number_ship = Ships.Length;
         PlayerPrefs.Save();

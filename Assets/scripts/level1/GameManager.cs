@@ -3,6 +3,8 @@
 
 static public class GameManager
 {
+    static public bool first_play;
+
     static public int record = 0;
     static public int score = 0;
     static public bool gameOver = false;

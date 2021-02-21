@@ -11,7 +11,7 @@ public class Ad : MonoBehaviour, IUnityAdsListener
 #endif
 
     Button myButton;
-    public string myPlacementId = "" /*"rewardedVideo"*/;
+    public string myPlacementId = "rewardedVideo";
    
 
     void Start()
@@ -32,6 +32,7 @@ public class Ad : MonoBehaviour, IUnityAdsListener
     void ShowRewardedVideo()
     {
         Advertisement.Show(myPlacementId);
+        PlayerPrefs.SetInt("First_play", 0);
     }
 
     // Implement IUnityAdsListener interface methods:
