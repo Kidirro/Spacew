@@ -55,7 +55,7 @@ public class ShipSpawner : MonoBehaviour
     {
         Normal.TransitionTo(0.5f);
         Playing_objs.SetActive(true);
-        Main_menu_objs.SetActive(false);
+        
         if (_player == null)
         {
             _player = Instantiate(ships[GameManager.chosen_ship]) as GameObject;
@@ -65,6 +65,7 @@ public class ShipSpawner : MonoBehaviour
         GameManager.max_health = GameManager.defaulthealth;
         title.Restart();
         StarSystem.transform.localScale = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(1, 1)).x * 2, 1, 1);
+        Main_menu_objs.SetActive(false);
     }
 
     private void Awake()

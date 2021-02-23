@@ -54,7 +54,7 @@ public class FireDrone : DefaultDrone
         StopAllCoroutines();
         foreach (GameObject ammo in AmmoPool)
         {
-            ammo.SetActive(false);
+            if (ammo)  ammo.SetActive(false);
         }
     }
 

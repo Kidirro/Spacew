@@ -29,15 +29,15 @@ public class ship_menu_swipe : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         {
             if (end_vector.x == Camera.main.pixelWidth + 100)
             {
-                start_vector = new Vector2(-100, Camera.main.pixelHeight / 2);
-                end_vector = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+                start_vector = new Vector2(-100, transform.position.y);
+                end_vector = new Vector2(Camera.main.pixelWidth / 2, transform.position.y);
                 GameManager.chosen_ship = change;
                 moving_timer = 0;
             }
             else if (end_vector.x == -100)
             {
-                start_vector = new Vector2(Camera.main.pixelWidth + 100, Camera.main.pixelHeight / 2);
-                end_vector = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+                start_vector = new Vector2(Camera.main.pixelWidth + 100, transform.position.y);
+                end_vector = new Vector2(Camera.main.pixelWidth / 2, transform.position.y);
                 GameManager.chosen_ship = change;
                 moving_timer = 0;
             }
@@ -88,11 +88,7 @@ public class ship_menu_swipe : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         }
         else
         {
-            transform.position = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
-        }
-        if (timer <= 0.05f && Mathf.Abs(end_pos) < 100)
-        {
-            FindObjectOfType<Main_menu_UI>().Startgame();
+            transform.position = new Vector2(Camera.main.pixelWidth / 2, transform.position.y);
         }
     }
 

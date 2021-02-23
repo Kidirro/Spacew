@@ -11,13 +11,11 @@ public class Main_menu_UI : MonoBehaviour
     public Text hiscore;
     public Image ship;
     [Header("Ссылка на уведомление")]
-    public Image New_Ship;
     public ShipSpawner shipSpawner;
     public GameObject Desctr;
 
     public void Awake()
     {
-        New_Ship.gameObject.SetActive(false);
         if (PlayerPrefs.GetInt("Unlocked_ships") == 0 || (PlayerPrefs.GetInt("Unlocked_ships") < (int)Mathf.Pow(10, Ships.Length - 1)))
         {
             PlayerPrefs.SetInt("Unlocked_ships", (int)Mathf.Pow(10, Ships.Length - 1) + PlayerPrefs.GetInt("Unlocked_ships"));
@@ -35,8 +33,7 @@ public class Main_menu_UI : MonoBehaviour
     {
         if (GameManager.Unlocked_ship[GameManager.chosen_ship])
         {
-            shipSpawner.start_game();
-            GameManager.gameOver = false;
+            StartCoroutine(StartGame_IE());
         }
     }
 
@@ -57,10 +54,6 @@ public class Main_menu_UI : MonoBehaviour
 
     private void Update()
     { 
-        if (PlayerPrefs.GetInt("New_Ship") != -1)
-        {
-            New_Ship.gameObject.SetActive(true);
-        }
         Check_unlock();
         hiscore.text = "Record:\n" + PlayerPrefs.GetInt("Records");
         GameManager.record = PlayerPrefs.GetInt("Records");
@@ -87,6 +80,19 @@ public class Main_menu_UI : MonoBehaviour
             GameManager.chosen_ship = 0;
         }
         else GameManager.chosen_ship++;
+    }
+
+    IEnumerator StartGame_IE()
+    {
+        Animator clips = GetComponent<Animator>();
+        clips.Play("Open_Gate", -1, 0);
+        
+        yield return new WaitForSeconds(clips.runtimeAnimatorController.animationClips[0].length/ clips.GetFloat("Multiplier"));
+        shipSpawner.start_game();
+
+        GameManager.gameOver = false;
+        yield break;
+
     }
 
 }
