@@ -56,13 +56,13 @@ public class SkillPanelSkript : MonoBehaviour
             {
                 ship3_obj = FindObjectOfType<Ship3>();
             }
-            if (GameManager.skills[3].state - 1 > active_Fire_drones)
+            if (GameManager.skills[2].state - 1 > active_Fire_drones)
             {
                 Fire_Drones[active_Fire_drones].SetActive(true);
                 Fire_Drones[active_Fire_drones].transform.position = player.transform.position;
                 active_Fire_drones++;
             }
-            if (GameManager.skills[5].state - 1 > active_Shield_drones)
+            if (GameManager.skills[4].state - 1 > active_Shield_drones)
             {
                 Shield_Drones[active_Shield_drones].SetActive(true);
                 Shield_Drones[active_Shield_drones].transform.position = player.transform.position;
@@ -88,14 +88,14 @@ public class SkillPanelSkript : MonoBehaviour
     private void Awake()
     {
         Fire_Drones = new List<GameObject>();
-        for (int i = 0; i < GameManager.skills[3].max_grade; i++)
+        for (int i = 0; i < GameManager.skills[2].max_grade; i++)
         {
             GameObject FireObject = Instantiate(Fire_Drone);
             FireObject.SetActive(false);
             Fire_Drones.Add(FireObject);
         }
         Shield_Drones = new List<GameObject>();
-        for (int i = 0; i < GameManager.skills[5].max_grade; i++)
+        for (int i = 0; i < GameManager.skills[4].max_grade; i++)
         {
             GameObject FireObject = Instantiate(Shield_Drone);
             FireObject.SetActive(false);

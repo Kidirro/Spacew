@@ -21,6 +21,12 @@ public class Enemy_spawner : MonoBehaviour
     [Min(0)]
     [Tooltip("Время, после которого начнется спавн")]
     public float meteor_start_time;
+    [Tooltip("Лимит частиц метеора")]
+    public int MeteorPSLimit;
+    [Tooltip("Ссылка на ПартиклСистем")]
+    public ParticleSystem MeteorPS;
+    [Tooltip("Пул партиклов")]
+    public List<ParticleSystem> MeteorPSPool;    
 
 
     [Header("1 тип кораблей")]
@@ -74,6 +80,19 @@ public class Enemy_spawner : MonoBehaviour
             MeteorObject.GetComponent<Meteor_behavior>().meteor_array = true;
             MeteorObject.SetActive(false);
             MeteorPool.Add(MeteorObject);
+        }
+
+        if (MeteorPSPool == null)
+        {
+            MeteorPSPool = new List<ParticleSystem>();
+        }
+
+        for (int i = 0; i < MeteorPSLimit; i++)
+        {
+            ParticleSystem particleSystem = Instantiate(MeteorPS);
+            particleSystem.gameObject.transform.position = gameObject.transform.position;
+            particleSystem.gameObject.SetActive(false);
+            MeteorPSPool.Add(particleSystem);
         }
 
         if (Ship1Pool == null)

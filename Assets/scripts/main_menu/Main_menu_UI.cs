@@ -14,6 +14,8 @@ public class Main_menu_UI : MonoBehaviour
     public ShipSpawner shipSpawner;
     public GameObject Desctr;
 
+    private bool Game_Started = false;
+
     public void Awake()
     {
         if (PlayerPrefs.GetInt("Unlocked_ships") == 0 || (PlayerPrefs.GetInt("Unlocked_ships") < (int)Mathf.Pow(10, Ships.Length - 1)))
@@ -68,6 +70,11 @@ public class Main_menu_UI : MonoBehaviour
         }
     }
 
+    public void LoadGuide()
+    {
+
+    }
+
     public void LoadStore() 
     {
         Desctr.SetActive(true);
@@ -84,13 +91,18 @@ public class Main_menu_UI : MonoBehaviour
 
     IEnumerator StartGame_IE()
     {
-        Animator clips = GetComponent<Animator>();
-        clips.Play("Open_Gate", -1, 0);
-        
-        yield return new WaitForSeconds(clips.runtimeAnimatorController.animationClips[0].length/ clips.GetFloat("Multiplier"));
-        shipSpawner.start_game();
+        if (!Game_Started)
+        {
+            Game_Started = true;
+            Animator clips = GetComponent<Animator>();
+            clips.Play("Open_Gate", -1, 0);
 
-        GameManager.gameOver = false;
+            yield return new WaitForSeconds(clips.runtimeAnimatorController.animationClips[0].length / clips.GetFloat("Multiplier"));
+            shipSpawner.start_game();
+
+            GameManager.gameOver = false;
+            Game_Started = false;
+        }
         yield break;
 
     }

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class tree_rotating : MonoBehaviour
 {
-
+    private List<GameObject> Lines;
     private int current_segment=0;
     private int Segments;
     private int Segment_angle;
@@ -59,6 +60,7 @@ public class tree_rotating : MonoBehaviour
 
     private void Awake()
     {
+        Lines = new List<GameObject>();
         if (GameManager.skills == null)
         {
             GameManager.skills = FindObjectsOfType<Class_Skill>();
@@ -87,8 +89,32 @@ public class tree_rotating : MonoBehaviour
 
     public void Chose_skill(int id)
     {
+        Tree_click(GameManager.skills[id].tree);
         Chosen = id;
         Skill_desk.text = GameManager.skills[id].Desc;
+        if (Lines.Count>0)
+        {
+            DeleteLine();
+        }
+
+        if (GameManager.skills[id].Need_Skill.Length > 0)
+        {
+            for (int i = 0; i < GameManager.skills[id].Need_Skill.Length; i++)
+            {
+                GameObject line_obj =new GameObject("Line");
+                LineRenderer line = line_obj.AddComponent<LineRenderer>();
+                line.positionCount = 2;
+                line.SetPosition(0, Camera.main.ScreenToWorldPoint(GameManager.skills[id].gameObject.transform.position));
+                line.SetPosition(1, Camera.main.ScreenToWorldPoint(GameManager.skills[GameManager.skills[id].Need_Skill[i]].gameObject.transform.position));
+                line.SetPosition(0, new Vector3(line.GetPosition(0).x, line.GetPosition(0).y, 1));
+                line.SetPosition(1, new Vector3(line.GetPosition(1).x, line.GetPosition(1).y, 1));
+
+                line.material = new Material(Shader.Find("Sprites/Default"));
+                line.material.color = (GameManager.skills[GameManager.skills[id].Need_Skill[i]].state > 1) ? Color.green: Color.red;
+                Debug.LogError(line_obj);
+                Lines.Add(line_obj);
+            }
+        }
     }
 
     public void Exit()
@@ -96,6 +122,7 @@ public class tree_rotating : MonoBehaviour
         menu.SetActive(false);
         GameManager.gameOver = false;
         Time.timeScale = 1f;
+        DeleteLine();  
     }
 
     public void Accept()
@@ -108,6 +135,7 @@ public class tree_rotating : MonoBehaviour
             GameManager.gameOver = false;
             Time.timeScale = 1f;
             Skill_desk.text = "Выберите навык";
+            DeleteLine();
         }
         else if (GameManager.skills[Chosen].state == GameManager.skills[Chosen].max_grade+1)
         {
@@ -143,6 +171,7 @@ public class tree_rotating : MonoBehaviour
 
     public void Tree_click(int id)
     {
+        DeleteLine();
         current_segment = FindIndex(ids,id);
         Rotate_Segments();
     }
@@ -155,35 +184,44 @@ public class tree_rotating : MonoBehaviour
     }
 
     public void Split_skill(string ids_str)
-    {   
+    {
         int point = ids_str.IndexOf(';');
         if (point != -1)
         {
             int id1 = int.Parse(ids_str.Substring(0, point));
-            int id2 = int.Parse(ids_str.Substring(point, ids_str.Length-1).Trim(';'));
-            if (id1 == ids[current_segment])
-            {
-                int right = (int)Mathf.Sign(id2-id1);
-                int change_id= FindIndex(ids,id2);
-                if (change_id != -1)
-                {
-                    int swap_int= ids[current_segment+right];
-                    ids[current_segment + right] = ids[change_id];
-                    ids[change_id] = swap_int;
-                    var swap_go = Skill_segments[current_segment + right];
-                    Skill_segments[current_segment + right] = Skill_segments[change_id];
-                    Skill_segments[change_id] = swap_go;
-                    Rotate_Segments();
-                }
-
-            }
-            else
+            int id2 = int.Parse(ids_str.Substring(point, ids_str.Length - 1).Trim(';'));
+            if (id1 != ids[current_segment])
             {
                 Change_Current_Segment(FindIndex(ids, id1));
             }
+            int right = (int)Mathf.Sign(id2 - id1);
+            id2 = Mathf.Abs(id2);
+            int change_id = FindIndex(ids, id2);
+            if (change_id != -1)
+            {
+                int swap_int_main = (current_segment + right + ids.Length) % ids.Length;
+                int swap_int = ids[swap_int_main];
+
+
+                ids[swap_int_main] = ids[change_id];
+                ids[change_id] = swap_int;
+                var swap_go = Skill_segments[swap_int_main];
+                Skill_segments[swap_int_main] = Skill_segments[change_id];
+                Skill_segments[change_id] = swap_go;
+                Rotate_Segments();
+            }
+
+
         }
     }
 
+    private void DeleteLine()
+    {
+        for (int i = 0; i < Lines.Count; i++)
+        {
+            Destroy(Lines[i].gameObject);
+        }
+    }
     public void Rotate_Segments()
     {
         for (int i = 0; i<Segments; i++)

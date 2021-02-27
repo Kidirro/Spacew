@@ -27,6 +27,6 @@ public class Class_Skill : MonoBehaviour
     [Min(1)]
     public int max_grade;
 
-    //Один из рутов. Цена за скил.
-    public int price;
+    [Tooltip("Дерево")]
+    public int tree;
 }

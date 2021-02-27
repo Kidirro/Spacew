@@ -6,7 +6,7 @@ public class Meteor_behavior : MonoBehaviour
 {
     private Rigidbody2D rb;
     public int default_speed;
-
+    private Enemy_spawner ES;
     public bool meteor_array = false;
 
     public GameObject meteor;
@@ -32,29 +32,25 @@ public class Meteor_behavior : MonoBehaviour
         damage = damage_p;
         price = price_p;
         Last = this.gameObject;
+        
     }
 
     public void Start()
     {
+        ES = GameObject.FindObjectOfType<Enemy_spawner>();
         if (!meteor_array)
         {
-            //ExplosionObject = (GameObject)Instantiate(explosion);
-            //ExplosionObject.transform.position = meteor.transform.position;
-            //ExplosionObject.SetActive(false);
             health = (int) (default_health* transform.localScale.x);
             rb = GetComponent<Rigidbody2D>();
-            rb.AddForce(new Vector2(0, -default_speed * (float)(ShipSpawner.time_count * 0.05)));
+            rb.AddForce(new Vector2(0, -default_speed ));
         }
     }
 
     private void OnEnable()
     {
-        //ExplosionObject = (GameObject)Instantiate(explosion);
-        //ExplosionObject.transform.position = meteor.transform.position;
-        //ExplosionObject.SetActive(false);
         health = (int)(default_health * transform.localScale.x);
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(0, -default_speed * (float)(ShipSpawner.time_count * 0.05)));
+        rb.AddForce(new Vector2(0, -default_speed ));
     }
 
     private void Update()
@@ -85,8 +81,20 @@ public class Meteor_behavior : MonoBehaviour
         if (gameObject != null)
         {
             GameManager.score += price;
-            //ExplosionObject.transform.position = Vector_pos;
-            //ExplosionObject.SetActive(true);
+            int j = 0;
+            bool shoot = true;
+            while (shoot & j <ES.MeteorPSLimit)
+            {
+                ParticleSystem particle = ES.MeteorPSPool[j];
+                if (particle.gameObject.activeSelf == false)
+                {
+                    particle.gameObject.transform.position = gameObject.transform.position;
+                    particle.gameObject.SetActive(true);
+                    shoot = false;
+
+                }
+                else j++;
+            }
             if (transform.localScale.x > 1)
             {
                 for (int i = 0; i < Random.Range(2, 4); i++)
