@@ -10,17 +10,28 @@ public class Lamp_Flashing : MonoBehaviour
     {
         foreach (GameObject lamp in Lamps)
         {
-            lamp.GetComponent<Image>().color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255),255);
+            StartCoroutine(Flashlight(lamp, Random.Range(1f,4f), Random.Range(2f, 3f)));
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        foreach (GameObject lamp in Lamps)
+
+    private IEnumerator Flashlight(GameObject lamp, float work_time,float sleep_time) {
+        //lamp.GetComponent<Image>().color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
+        lamp.GetComponent<Image>().color = Color.blue;
+        lamp.SetActive(Random.Range(0, 2) == 1);
+        while (true)
         {
-            lamp.GetComponent<Image>().color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
+            if (lamp.activeSelf)
+            {
+                lamp.SetActive(false);
+                yield return new WaitForSecondsRealtime(sleep_time);
+            }
+            else
+            {
+                lamp.SetActive(true);
+                yield return new WaitForSecondsRealtime(work_time);
+            }
         }
-        
+
     }
 }

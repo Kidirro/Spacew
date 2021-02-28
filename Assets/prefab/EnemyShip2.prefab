@@ -204,15 +204,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6371cde0782e6d4ea1fc778156693d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  Gun_Health: 2
+  def_health: 5
   rb: {fileID: 0}
-  speed: 0
+  speed: 1000
   damage_p: 3
   price_p: 2
   AmmoPoolLimit: 5
   Ammo: {fileID: 8751530339073776873, guid: 4ab11d9323c3c4d4d80ab55c523a78db, type: 3}
   fire_rate: 2
+  size: 2
 --- !u!60 &4492930146228783082
 PolygonCollider2D:
   m_ObjectHideFlags: 0

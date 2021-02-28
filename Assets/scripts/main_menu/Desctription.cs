@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Desctription : MonoBehaviour
 {
-    [HideInInspector]
     public GameObject New_notif;
 
     public Text Title;
@@ -32,8 +31,8 @@ public class Desctription : MonoBehaviour
         if (GameManager.chosen_ship == PlayerPrefs.GetInt("New_Ship")) PlayerPrefs.SetInt("New_Ship", -1);
     }
 
-    private void Update()
+    public void Exit()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0)) this.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

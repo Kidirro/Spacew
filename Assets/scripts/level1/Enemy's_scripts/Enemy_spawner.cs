@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Enemy_spawner : MonoBehaviour
 {
+    public GameObject[] Lines;
+
     [Header("Метеориты")]
     [Tooltip("Максимальное количество метеоритов")]
     public int MeteorPoolLimit;
@@ -26,8 +28,7 @@ public class Enemy_spawner : MonoBehaviour
     [Tooltip("Ссылка на ПартиклСистем")]
     public ParticleSystem MeteorPS;
     [Tooltip("Пул партиклов")]
-    public List<ParticleSystem> MeteorPSPool;    
-
+    public List<ParticleSystem> MeteorPSPool;
 
     [Header("1 тип кораблей")]
     [Tooltip("Максимальное количество объектов ")]
@@ -47,7 +48,6 @@ public class Enemy_spawner : MonoBehaviour
     [Tooltip("Время, после которого начнется спавн")]
     public float start_time1;
 
-    
     [Header("2 тип кораблей")]
     [Tooltip("Максимальное количество объектов ")]
     public int Ship2PoolLimit;
@@ -66,8 +66,13 @@ public class Enemy_spawner : MonoBehaviour
     [Tooltip("Время, после которого начнется спавн")]
     public float start_time2;
 
+    static public int[] Lines_state;
+
     public void Awake()
     {
+        Lines_state = new int[Lines.Length];
+        for (int i = 0; i < Lines.Length; i++) Lines_state[i] = 1;
+       
         if (MeteorPool == null)
         {
             MeteorPool = new List<GameObject>();
@@ -177,6 +182,7 @@ public class Enemy_spawner : MonoBehaviour
             while (shoot & i < MeteorPoolLimit)
             {
                 GameObject Meteor = MeteorPool[i];
+
                 if (Meteor.activeSelf == false)
                 {
                     Meteor.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x), transform.position.y);
@@ -214,10 +220,19 @@ public class Enemy_spawner : MonoBehaviour
             while (shoot & i < Ship1PoolLimit)
             {
                 GameObject Ship = Ship1Pool[i];
+                foreach(int j in Lines_state)
+                {
+                    if (j == 1) { shoot = true; break; }
+                    shoot = false;
+                }
                 if (shoot & Ship.activeSelf == false)
                 {
-                    Ship.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x + 7, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x) - 7, transform.position.y);
-                    Ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                    int Line_spawn = Random.Range(0, Lines_state.Length);
+                    while (Lines_state[Line_spawn]!=1) Line_spawn = Random.Range(0, Lines_state.Length);
+
+                    Ship.GetComponent<EnemyShipDefault>().line = Line_spawn;                 
+                    Ship.transform.position = Lines[Line_spawn].transform.position;
+                    Ship.transform.rotation = Quaternion.Euler(0, 0, 180f);
                     shoot = false;
                     Ship.SetActive(true);
                 }
@@ -239,14 +254,26 @@ public class Enemy_spawner : MonoBehaviour
                 GameObject Ship = Ship2Pool[i];
                 if (shoot & Ship.activeSelf == false)
                 {
-                    Ship.transform.position = new Vector2(Random.Range(Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).x + 7, Camera.main.ViewportToWorldPoint(new Vector2(1, 0)).x) - 7, transform.position.y);
-                    shoot = false;
-                    Ship.SetActive(true);
+                    foreach (int j in Lines_state)
+                    {
+                        
+                        if (j == 1) { shoot = true; break; }
+                        shoot = false;
+                    }
+                    if (shoot & Ship.activeSelf == false)
+                    {
+                        int Line_spawn = Random.Range(0, Lines_state.Length);
+                        while (Lines_state[Line_spawn] != 1) Line_spawn = Random.Range(0, Lines_state.Length);
+                       
+                        Ship.transform.position = Lines[Line_spawn].transform.position;
+                        shoot = false;
+                        Ship.SetActive(true);
+                    }
+                    else i++;
                 }
-                else i++;
+                fire_rate2 = fire_rate2 * koef2;
+                yield return new WaitForSeconds((float)fire_rate2);
             }
-            fire_rate2 = fire_rate2 * koef2;
-            yield return new WaitForSeconds((float)fire_rate2);
         }
     }
 

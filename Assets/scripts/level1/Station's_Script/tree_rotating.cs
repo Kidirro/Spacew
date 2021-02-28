@@ -108,10 +108,10 @@ public class tree_rotating : MonoBehaviour
                 line.SetPosition(1, Camera.main.ScreenToWorldPoint(GameManager.skills[GameManager.skills[id].Need_Skill[i]].gameObject.transform.position));
                 line.SetPosition(0, new Vector3(line.GetPosition(0).x, line.GetPosition(0).y, 1));
                 line.SetPosition(1, new Vector3(line.GetPosition(1).x, line.GetPosition(1).y, 1));
+                line.sortingOrder = 1;
 
                 line.material = new Material(Shader.Find("Sprites/Default"));
                 line.material.color = (GameManager.skills[GameManager.skills[id].Need_Skill[i]].state > 1) ? Color.green: Color.red;
-                Debug.LogError(line_obj);
                 Lines.Add(line_obj);
             }
         }

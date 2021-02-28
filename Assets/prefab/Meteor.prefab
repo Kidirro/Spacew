@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2442342589159122984}
   - component: {fileID: -2575479149710604796}
   - component: {fileID: -7495868693463739138}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Meteor
   m_TagString: Meteor
   m_Icon: {fileID: 0}
@@ -126,6 +126,7 @@ MonoBehaviour:
   price_p: 1
   explosion: {fileID: 340434053795066113, guid: 2dd1997024f6894488531116baf3fce2,
     type: 3}
+  health: 0
 --- !u!60 &-7495868693463739138
 PolygonCollider2D:
   m_ObjectHideFlags: 0

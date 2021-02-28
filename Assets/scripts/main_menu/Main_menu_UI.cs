@@ -1,18 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Main_menu_UI : MonoBehaviour
 {
+    [Tooltip("Спрайты кораблей")]
     public Sprite[] Ships;
     public Text hiscore;
     public Image ship;
-    [Header("Ссылка на уведомление")]
+    [Tooltip("Ссылка на уведомление")]
     public ShipSpawner shipSpawner;
     public GameObject Desctr;
+    public GameObject Guide;
 
     private bool Game_Started = false;
 
@@ -72,10 +71,10 @@ public class Main_menu_UI : MonoBehaviour
 
     public void LoadGuide()
     {
-
+        Guide.SetActive(true);
     }
 
-    public void LoadStore() 
+    public void LoadInfo() 
     {
         Desctr.SetActive(true);
     }

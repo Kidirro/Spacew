@@ -184,15 +184,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46523fa649f3f884f93afa25d5797cff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Ship: {fileID: 8032359997923205254}
-  health: 6
+  def_health: 5
   rb: {fileID: 0}
   speed: 500
-  fire_rate: 3
-  AmmoPoolLimit: 5
-  Ammo: {fileID: 8751530339073776873, guid: 4ab11d9323c3c4d4d80ab55c523a78db, type: 3}
   damage_p: 1
   price_p: 2
+  AmmoPoolLimit: 5
+  Ammo: {fileID: 8751530339073776873, guid: 4ab11d9323c3c4d4d80ab55c523a78db, type: 3}
+  fire_rate: 3
+  size: 1
 --- !u!50 &8032359997923205255
 Rigidbody2D:
   serializedVersion: 4
