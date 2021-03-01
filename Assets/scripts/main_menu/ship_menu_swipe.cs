@@ -15,6 +15,7 @@ public class ship_menu_swipe : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     void Update()
     {
+        Debug.Log(transform.position.y);
         if (click_hold)
         {
             transform.position = new Vector2(Input.mousePosition.x, transform.position.y);
@@ -50,12 +51,14 @@ public class ship_menu_swipe : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     }
     public void OnPointerDown(PointerEventData eventData)
     {
+        Debug.Log("+");
         click_hold = true;
         timer = 0;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        Debug.Log("+");
         click_hold = false;
         end_pos = transform.position.x - Camera.main.pixelWidth / 2;
         if (end_pos > Camera.main.pixelWidth / 7) //Утягиваем вправо
@@ -94,6 +97,7 @@ public class ship_menu_swipe : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     float EasingLeaner(float x)
     {
+        Debug.Log("+");
         return x * Mathf.Abs(end_pos)/timer*0.004f;
     }
 }

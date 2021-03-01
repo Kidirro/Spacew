@@ -16,8 +16,10 @@ public class Lamp_Flashing : MonoBehaviour
 
 
     private IEnumerator Flashlight(GameObject lamp, float work_time,float sleep_time) {
-        //lamp.GetComponent<Image>().color = new Color32((byte)Random.Range(0, 255), (byte)Random.Range(0, 255), (byte)Random.Range(0, 255), 255);
+        int color_id = Random.Range(0, 2);
         lamp.GetComponent<Image>().color = Color.blue;
+
+
         lamp.SetActive(Random.Range(0, 2) == 1);
         while (true)
         {

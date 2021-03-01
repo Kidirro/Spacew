@@ -29,4 +29,11 @@ public class Class_Skill : MonoBehaviour
 
     [Tooltip("Дерево")]
     public int tree;
+
+    public void Start()
+    {
+        GameObject Locked = Instantiate(Resources.Load("Pref/LockedUI", typeof(GameObject)) as GameObject);
+        Locked.transform.position = transform.position;
+        
+    }
 }

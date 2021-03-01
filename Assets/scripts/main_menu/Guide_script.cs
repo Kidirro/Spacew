@@ -15,6 +15,12 @@ public class Guide_script : MonoBehaviour
         main.sprite = sheets[i];
     }
 
+    private void OnEnable()
+    {
+        i = 0;
+        main.sprite = sheets[i];
+    }
+
     public void next()
     {
         i = (i != sheets.Length - 1) ? i+1 : 0;

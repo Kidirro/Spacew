@@ -42,6 +42,6 @@ public class UI_Interface: MonoBehaviour
         {
             Shieldpercent.fillAmount = ((float)GameManager.shield / ((float)GameManager.max_shield));
         }
-        Score.text = "Score\n" + GameManager.score;
+        Score.text = ""+ GameManager.score;
     }
 }

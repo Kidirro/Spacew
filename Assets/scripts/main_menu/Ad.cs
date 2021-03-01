@@ -25,7 +25,7 @@ public class Ad : MonoBehaviour, IUnityAdsListener
         // Map the ShowRewardedVideo function to the button’s click listener:
         if (myButton) myButton.onClick.AddListener(ShowRewardedVideo);
         // Initialize the Ads listener and service:
-        Advertisement.Initialize(gameId, true);
+        Advertisement.Initialize(gameId, false);
     }
 
     // Implement a function for showing a rewarded video ad:

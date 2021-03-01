@@ -56,7 +56,7 @@ public class Main_menu_UI : MonoBehaviour
     private void Update()
     { 
         Check_unlock();
-        hiscore.text = "Record:\n" + PlayerPrefs.GetInt("Records");
+        hiscore.text = "Record:" + PlayerPrefs.GetInt("Records");
         GameManager.record = PlayerPrefs.GetInt("Records");
         ship.sprite = Ships[GameManager.chosen_ship];
         if (GameManager.Unlocked_ship[GameManager.chosen_ship])

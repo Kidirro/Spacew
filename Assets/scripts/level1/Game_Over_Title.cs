@@ -8,6 +8,11 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Game_Over_Title : MonoBehaviour
 {
+    public Image BloomButton;
+    public Image ChromaticButton;
+
+    public Sprite[] ButtonState;
+
     public Text Record;
     public Text Score;
     public GameObject pause_menu;
@@ -24,6 +29,18 @@ public class Game_Over_Title : MonoBehaviour
 
     public void Awake()
     {
+        if (postProcessing != null)
+        {
+            Bloom bloom;
+            ChromaticAberration chromaticAberration;
+            postProcessing.profile.TryGetSettings(out bloom);
+            postProcessing.profile.TryGetSettings(out chromaticAberration);
+            if (bloom != null) bloom.active = PlayerPrefs.GetInt("Bloom")==1;
+            if (chromaticAberration != null) chromaticAberration.active = PlayerPrefs.GetInt("ChromaticAberration") ==1;
+            BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
+            ChromaticButton.sprite = ButtonState[chromaticAberration.active ? 1 : 0];
+
+        }
         EnemyShipSpawner = GameObject.FindObjectOfType<Enemy_spawner>();
     }
 
@@ -36,8 +53,8 @@ public class Game_Over_Title : MonoBehaviour
             GameManager.record = GameManager.score;
             PlayerPrefs.SetInt("Records",GameManager.record);
         }
-        Record.text = "HiScore:\n" + PlayerPrefs.GetInt("Records");
-        Score.text = "Score:\n" + GameManager.score;
+        Record.text = "" + PlayerPrefs.GetInt("Records");
+        Score.text = "" + GameManager.score;
         Time.timeScale = 0.2f;
         Debug.Log(pause_menu.activeSelf);
         Death.TransitionTo(0.5f);
@@ -84,8 +101,9 @@ public class Game_Over_Title : MonoBehaviour
             postProcessing.profile.TryGetSettings(out bloom);
             if (bloom != null) {
                 bloom.active  = !bloom.active;
-                Debug.Log(bloom.active);
-                
+                PlayerPrefs.SetInt("Bloom", bloom.active ? 1 : 0);
+                BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
+                PlayerPrefs.Save();
             }
         }
     }
@@ -99,7 +117,9 @@ public class Game_Over_Title : MonoBehaviour
             if (chromatic != null)
             {
                 chromatic.active = !chromatic.active;
-                Debug.Log(chromatic.active);
+                PlayerPrefs.SetInt("ChromaticAberration", chromatic.active ? 1 : 0);
+                ChromaticButton.sprite = ButtonState[chromatic.active ? 1 : 0];
+                PlayerPrefs.Save();
 
             }
         }

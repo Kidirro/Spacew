@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class tree_rotating : MonoBehaviour
 {
+
     private List<GameObject> Lines;
     private int current_segment=0;
     private int Segments;
@@ -30,6 +31,7 @@ public class tree_rotating : MonoBehaviour
             if (skill.state == skill.max_grade +1)
             {
                 skill.GetComponent<Image>().color= new Color32(255, 255, 255, 255);
+                skill.transform.GetChild(0).gameObject.SetActive(false);
                 //Тут менять цвет. (Куплено)
             }
             else
@@ -42,7 +44,8 @@ public class tree_rotating : MonoBehaviour
                 if (!flag)
                 {
                     skill.state = 0;
-                    skill.GetComponent<Image>().color = new Color32(255, 255, 50, 100);
+                    skill.GetComponent<Image>().color = Color.red;
+                    skill.transform.GetChild(0).gameObject.SetActive(true);
                     //Менять цвет. (Заблокировано)
                 }
                 else
@@ -51,7 +54,8 @@ public class tree_rotating : MonoBehaviour
                     {
                         skill.state = 1;
                     }
-                    skill.GetComponent<Image>().color = new Color32(255, 255, 50, 255);
+                    skill.GetComponent<Image>().color = Color.yellow;
+                    skill.transform.GetChild(0).gameObject.SetActive(false);
                     //Менять цвет. (разрешено для покупки)
                 }
             }
@@ -91,7 +95,7 @@ public class tree_rotating : MonoBehaviour
     {
         Tree_click(GameManager.skills[id].tree);
         Chosen = id;
-        Skill_desk.text = GameManager.skills[id].Desc;
+        Skill_desk.text = GameManager.skills[id].Desc + "\n Изучено:" +Mathf.Clamp(GameManager.skills[id].state-1,0,100) + " из " + GameManager.skills[id].max_grade;
         if (Lines.Count>0)
         {
             DeleteLine();
