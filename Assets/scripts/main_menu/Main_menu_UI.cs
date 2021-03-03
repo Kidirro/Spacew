@@ -12,6 +12,7 @@ public class Main_menu_UI : MonoBehaviour
     public ShipSpawner shipSpawner;
     public GameObject Desctr;
     public GameObject Guide;
+    public GameObject Settings;
 
     private bool Game_Started = false;
 
@@ -23,7 +24,13 @@ public class Main_menu_UI : MonoBehaviour
         }
         Debug.Log(PlayerPrefs.GetInt("Unlocked_ships"));
         GameManager.first_play =PlayerPrefs.GetInt("First_play")==0;
-        Debug.Log(GameManager.first_play?"Первый запуск":"Не первый запуск");
+        if (GameManager.first_play)
+        {
+            PlayerPrefs.SetInt("Bloom", 1);
+            PlayerPrefs.SetInt("ChromaticAberration", 1);
+            PlayerPrefs.SetInt("MusicOn", 1);
+            PlayerPrefs.SetInt("SoundOn", 1);
+        }
         PlayerPrefs.SetInt("First_play",-1);
         GameManager.Unlocked_ship = new bool[Ships.Length];
         GameManager.number_ship = Ships.Length;
@@ -77,6 +84,11 @@ public class Main_menu_UI : MonoBehaviour
     public void LoadInfo() 
     {
         Desctr.SetActive(true);
+    }
+
+    public void LoadSettings()
+    {
+        Settings.SetActive(true);
     }
 
     public void SwitchShip()

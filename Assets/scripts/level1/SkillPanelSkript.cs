@@ -38,10 +38,13 @@ public class SkillPanelSkript : MonoBehaviour
     [Header("Drones")]
     public GameObject Fire_Drone;
     public GameObject Shield_Drone;
+    public GameObject Rocket_Drone;
     private List<GameObject> Fire_Drones;
     private int active_Fire_drones=0;
     private List<GameObject> Shield_Drones;
     private int active_Shield_drones=0;
+    private List<GameObject> Rocket_Drones;
+    private int active_Rocket_drones=0;
 
     private void Update()
     {
@@ -67,21 +70,42 @@ public class SkillPanelSkript : MonoBehaviour
                 Shield_Drones[active_Shield_drones].SetActive(true);
                 Shield_Drones[active_Shield_drones].transform.position = player.transform.position;
                 active_Shield_drones++;
+            }     
+            if (GameManager.skills[3].state - 1 > active_Rocket_drones)
+            {
+                Rocket_Drones[active_Rocket_drones].SetActive(true);
+                Rocket_Drones[active_Rocket_drones].transform.position = player.transform.position;
+                active_Rocket_drones++;
             }
         }
         else
         {
-            StopAllCoroutines();
-            active_Fire_drones = 0;
-            active_Shield_drones = 0;
-            foreach (GameObject drone in Fire_Drones)
-            {
-                drone.SetActive(false);
-            }
-            foreach (GameObject drone in Shield_Drones)
-            {
-                drone.SetActive(false);
-            }
+            Clear();
+        }
+    }
+
+    private void Clear()
+    {
+        StopAllCoroutines();
+        active_Fire_drones = 0;
+        active_Shield_drones = 0;
+        SkillUsable = true;
+        player.layer = 12;
+        SpriteRenderer spr = player.GetComponent<SpriteRenderer>();
+        Color cl = spr.material.color;
+        cl.a = 1f;
+        spr.color = cl;
+        foreach (GameObject drone in Fire_Drones)
+        {
+            drone.SetActive(false);
+        }
+        foreach (GameObject drone in Shield_Drones)
+        {
+            drone.SetActive(false);
+        }    
+        foreach (GameObject drone in Rocket_Drones)
+        {
+            drone.SetActive(false);
         }
     }
 
@@ -94,12 +118,21 @@ public class SkillPanelSkript : MonoBehaviour
             FireObject.SetActive(false);
             Fire_Drones.Add(FireObject);
         }
+
         Shield_Drones = new List<GameObject>();
         for (int i = 0; i < GameManager.skills[4].max_grade; i++)
         {
             GameObject FireObject = Instantiate(Shield_Drone);
             FireObject.SetActive(false);
             Shield_Drones.Add(FireObject);
+        }
+
+        Rocket_Drones = new List<GameObject>();
+        for (int i = 0; i < GameManager.skills[3].max_grade; i++)
+        {
+            GameObject FireObject = Instantiate(Rocket_Drone);
+            FireObject.SetActive(false);
+            Rocket_Drones.Add(FireObject);
         }
         cds = new float[3];
         cds[0] = Invs_cooldown;

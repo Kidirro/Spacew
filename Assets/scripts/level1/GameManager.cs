@@ -32,6 +32,8 @@ static public class GameManager
 
     static public Class_Skill[] skills;
 
+    static public bool Using_sound;
+
 
     static public void take_damage(int damage, int price,bool kill, GameObject other)
     {

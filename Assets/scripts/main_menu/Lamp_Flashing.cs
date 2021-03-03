@@ -14,6 +14,13 @@ public class Lamp_Flashing : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        foreach (GameObject lamp in Lamps)
+        {
+            StartCoroutine(Flashlight(lamp, Random.Range(1f, 4f), Random.Range(2f, 3f)));
+        }
+    }
 
     private IEnumerator Flashlight(GameObject lamp, float work_time,float sleep_time) {
         int color_id = Random.Range(0, 2);

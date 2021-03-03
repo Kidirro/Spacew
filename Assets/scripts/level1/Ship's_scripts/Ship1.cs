@@ -88,7 +88,7 @@ public class Ship1 : DefaultShip
                     shoot = false;
                     ammo.transform.rotation = transform.rotation;
                     ammo.SetActive(true);
-                    Shot_source.PlayOneShot(shoot_sound);
+                    if (GameManager.Using_sound) Shot_source.PlayOneShot(shoot_sound);
                 }
                 else i++;
             }

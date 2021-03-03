@@ -7,6 +7,7 @@ public class UI_Interface: MonoBehaviour
 {
     public Text Score;
     public Image percent;
+    public GameObject Health_BG;
     public Image Shieldpercent;
     public GameObject shield_bar;
 
@@ -15,10 +16,14 @@ public class UI_Interface: MonoBehaviour
     [HideInInspector]
     public float rest_begin;
     public Image Skillpercent;
+    public GameObject Skill_BG;
 
     void Update()
     {
-        shield_bar.SetActive(GameManager.Shield_using);
+        Skill_BG.gameObject.SetActive(!GameManager.gameOver);
+        Health_BG.gameObject.SetActive(!GameManager.gameOver);
+        shield_bar.SetActive(GameManager.Shield_using & !GameManager.gameOver);
+        Score.gameObject.SetActive(!GameManager.gameOver);
         percent.fillAmount = ((float)GameManager.health / ((float)GameManager.defaulthealth));
         if (!FindObjectOfType<SkillPanelSkript>().SkillUsable)
         {

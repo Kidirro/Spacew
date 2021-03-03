@@ -29,18 +29,6 @@ public class Game_Over_Title : MonoBehaviour
 
     public void Awake()
     {
-        if (postProcessing != null)
-        {
-            Bloom bloom;
-            ChromaticAberration chromaticAberration;
-            postProcessing.profile.TryGetSettings(out bloom);
-            postProcessing.profile.TryGetSettings(out chromaticAberration);
-            if (bloom != null) bloom.active = PlayerPrefs.GetInt("Bloom")==1;
-            if (chromaticAberration != null) chromaticAberration.active = PlayerPrefs.GetInt("ChromaticAberration") ==1;
-            BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
-            ChromaticButton.sprite = ButtonState[chromaticAberration.active ? 1 : 0];
-
-        }
         EnemyShipSpawner = GameObject.FindObjectOfType<Enemy_spawner>();
     }
 
@@ -56,8 +44,8 @@ public class Game_Over_Title : MonoBehaviour
         Record.text = "" + PlayerPrefs.GetInt("Records");
         Score.text = "" + GameManager.score;
         Time.timeScale = 0.2f;
-        Debug.Log(pause_menu.activeSelf);
         Death.TransitionTo(0.5f);
+        GameManager.gameOver = true;
         
         //Изменить количество метеоритов тут
         if (!GameManager.Unlocked_ship[1] && PlayerPrefs.GetInt("Ship1_prog")>=15)
@@ -87,6 +75,7 @@ public class Game_Over_Title : MonoBehaviour
         New_Ship.gameObject.SetActive(false);
         pause_menu.SetActive(false);
         Normal.TransitionTo(0.5f);
+        GameManager.gameOver = false;
         foreach (GameObject Bullet in GameObject.FindGameObjectsWithTag("EnemyBullet"))
         {
             Bullet.SetActive(false);
@@ -122,6 +111,24 @@ public class Game_Over_Title : MonoBehaviour
                 PlayerPrefs.Save();
 
             }
+        }
+    }
+
+    private void OnEnable()
+    {
+
+        transform.position = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
+        if (postProcessing != null)
+        {
+            Bloom bloom;
+            ChromaticAberration chromaticAberration;
+            postProcessing.profile.TryGetSettings(out bloom);
+            postProcessing.profile.TryGetSettings(out chromaticAberration);
+            if (bloom != null) bloom.active = PlayerPrefs.GetInt("Bloom") == 1;
+            if (chromaticAberration != null) chromaticAberration.active = PlayerPrefs.GetInt("ChromaticAberration") == 1;
+            BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
+            ChromaticButton.sprite = ButtonState[chromaticAberration.active ? 1 : 0];
+
         }
     }
 }

@@ -152,7 +152,7 @@ public class DefaultShip : MonoBehaviour
                     shoot = false;
                     ammo.transform.rotation = transform.rotation;
                     ammo.SetActive(true);
-                    Shot_source.PlayOneShot(rocket_sound);
+                    if (GameManager.Using_sound) Shot_source.PlayOneShot(rocket_sound);
                 }
                 else i++;
             }

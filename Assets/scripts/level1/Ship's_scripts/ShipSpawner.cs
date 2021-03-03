@@ -9,10 +9,7 @@ public class ShipSpawner : MonoBehaviour
     public GameObject[] ships;
 
     public Game_Over_Title title;
-    public ParticleSystem StarSystem;
 
-    [HideInInspector]
-    public AudioMixer Mixer;
     [HideInInspector]
     public GameObject LevelWall;
     [HideInInspector]
@@ -64,7 +61,6 @@ public class ShipSpawner : MonoBehaviour
         }
         GameManager.max_health = GameManager.defaulthealth;
         title.Restart();
-        StarSystem.transform.localScale = new Vector3(Camera.main.ViewportToWorldPoint(new Vector2(1, 1)).x * 2, 1, 1);
         Main_menu_objs.SetActive(false);
     }
 
@@ -122,14 +118,17 @@ public class ShipSpawner : MonoBehaviour
 
             }
 
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (_player.activeSelf & Time.timeScale ==1f)
             {
-                if (time_count - last_touch <= 0.5f)
-                { 
-                    FindObjectOfType<SkillPanelSkript>().Skill();
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    if (time_count - last_touch <= 0.5f)
+                    {
+                        FindObjectOfType<SkillPanelSkript>().Skill();
 
+                    }
+                    last_touch = time_count;
                 }
-                last_touch = time_count;
             }
 
 

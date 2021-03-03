@@ -68,8 +68,10 @@ public class FireDrone : DefaultDrone
         while (true)
         {
             bool shoot = true;
-            foreach (GameObject ammo in AmmoPool)
+            int i = 0;
+            while (i<AmmoPoolLimit & shoot)
             {
+                GameObject ammo = AmmoPool[i];
                 if (shoot & ammo.activeSelf == false & gameObject.GetComponent<Collider2D>().enabled)
                 {
                      ammo.transform.position = pos_fire.transform.position;

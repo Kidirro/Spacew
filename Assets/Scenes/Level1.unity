@@ -3123,7 +3123,7 @@ MonoBehaviour:
   default_fire_rate2: 10
   fire_rate2: 0
   koef2: 0.98
-  start_time2: 60
+  start_time2: 0
 --- !u!4 &465284920
 Transform:
   m_ObjectHideFlags: 0
