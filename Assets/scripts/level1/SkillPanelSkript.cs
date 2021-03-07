@@ -119,6 +119,14 @@ public class SkillPanelSkript : MonoBehaviour
             Fire_Drones.Add(FireObject);
         }
 
+        Rocket_Drones = new List<GameObject>();
+        for (int i = 0; i < GameManager.skills[3].max_grade; i++)
+        {
+            GameObject FireObject = Instantiate(Rocket_Drone);
+            FireObject.SetActive(false);
+            Rocket_Drones.Add(FireObject);
+        }
+
         Shield_Drones = new List<GameObject>();
         for (int i = 0; i < GameManager.skills[4].max_grade; i++)
         {
@@ -127,13 +135,6 @@ public class SkillPanelSkript : MonoBehaviour
             Shield_Drones.Add(FireObject);
         }
 
-        Rocket_Drones = new List<GameObject>();
-        for (int i = 0; i < GameManager.skills[3].max_grade; i++)
-        {
-            GameObject FireObject = Instantiate(Rocket_Drone);
-            FireObject.SetActive(false);
-            Rocket_Drones.Add(FireObject);
-        }
         cds = new float[3];
         cds[0] = Invs_cooldown;
         cds[1] = Drone_cooldown;
@@ -168,7 +169,7 @@ public class SkillPanelSkript : MonoBehaviour
                     StartCoroutine(InvisibilitySkill_process());
                     break;
                 case 1:
-                    StartCoroutine(DroneSkill_process());
+                    StartCoroutine(FixShield_process());
                     break;
                 case 2:
                     StartCoroutine(Shotgun());
@@ -179,47 +180,11 @@ public class SkillPanelSkript : MonoBehaviour
     }
 
 
-    IEnumerator DroneSkill_process()
+    IEnumerator FixShield_process()
     {
-        Debug.Log("Drine");
-        GameObject drone_fire= Instantiate(drone_pref) as  GameObject;
+        GameManager.shield = GameManager.max_shield;
         SkillUsable = false;
-        /*GameObject drone = Instantiate(Drone_skill_prfab);
-        objects.Add(drone);
-        float time = 0f;
-        while (time <= Drone_time)
-        {
-
-            if (GameManager.max_health > GameManager.health)
-            {
-                GameManager.health += 0.05f;
-            }
-            else if (GameManager.max_health < GameManager.health)
-            {
-                GameManager.health = GameManager.max_health;
-            }
-
-            if (GameManager.max_health == GameManager.health && GameManager.Shield_using)
-            {
-                if (GameManager.max_shield > GameManager.shield)
-                {
-                    GameManager.shield += 0.05f;
-                }
-                else if (GameManager.max_shield < GameManager.shield)
-                {
-                    GameManager.shield = GameManager.max_shield;
-                }
-
-            }
-            time += 0.05f;
-            yield return new WaitForSeconds(0.05f);
-        }
-        
-        
-        objects.Remove(drone);
-        Destroy(drone.gameObject);*/
         StartCoroutine(Cooldown());
-        //Destroy(drone_fire);
         yield break;
 
     }

@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class UI_Interface: MonoBehaviour
 {
     public Text Score;
-    public Image percent;
+    public Text Health;
     public GameObject Health_BG;
-    public Image Shieldpercent;
+    public Text Shield;
     public GameObject shield_bar;
 
     [HideInInspector]
@@ -23,8 +23,8 @@ public class UI_Interface: MonoBehaviour
         Skill_BG.gameObject.SetActive(!GameManager.gameOver);
         Health_BG.gameObject.SetActive(!GameManager.gameOver);
         shield_bar.SetActive(GameManager.Shield_using & !GameManager.gameOver);
+        Health.text = GameManager.health + "/" + GameManager.max_health;
         Score.gameObject.SetActive(!GameManager.gameOver);
-        percent.fillAmount = ((float)GameManager.health / ((float)GameManager.defaulthealth));
         if (!FindObjectOfType<SkillPanelSkript>().SkillUsable)
         {
             if (ShipSpawner.time_count - rest_begin > rest_time)
@@ -45,7 +45,7 @@ public class UI_Interface: MonoBehaviour
 
         if (shield_bar.activeSelf)
         {
-            Shieldpercent.fillAmount = ((float)GameManager.shield / ((float)GameManager.max_shield));
+            Shield.text = string.Format("{0:0.0}/{1:0.0}", GameManager.shield, GameManager.max_shield);
         }
         Score.text = ""+ GameManager.score;
     }

@@ -25,6 +25,8 @@ static public class GameManager
     static public double max_shield=10;
     static public float shield_rest_time = 3;
     static public double shield;
+    static public double defaultshield=10;
+
     static public double last_hit;
     static public bool following;
     static public bool wall_trigger;

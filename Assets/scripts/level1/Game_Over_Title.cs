@@ -8,11 +8,6 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class Game_Over_Title : MonoBehaviour
 {
-    public Image BloomButton;
-    public Image ChromaticButton;
-
-    public Sprite[] ButtonState;
-
     public Text Record;
     public Text Score;
     public GameObject pause_menu;
@@ -34,7 +29,6 @@ public class Game_Over_Title : MonoBehaviour
 
     public void showMenu()
     {     
-        Debug.Log("Menu showed");
         pause_menu.SetActive(true);
         if (GameManager.score > PlayerPrefs.GetInt("Records"))
         {
@@ -82,53 +76,7 @@ public class Game_Over_Title : MonoBehaviour
         }
     }
 
-    public void toggleBloom()
-    {
-        if (postProcessing != null)
-        {
-            Bloom bloom;
-            postProcessing.profile.TryGetSettings(out bloom);
-            if (bloom != null) {
-                bloom.active  = !bloom.active;
-                PlayerPrefs.SetInt("Bloom", bloom.active ? 1 : 0);
-                BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
-                PlayerPrefs.Save();
-            }
-        }
-    }
-
-    public void toggleChromatic()
-    {
-        if (postProcessing != null)
-        {
-            ChromaticAberration chromatic;
-            postProcessing.profile.TryGetSettings(out chromatic);
-            if (chromatic != null)
-            {
-                chromatic.active = !chromatic.active;
-                PlayerPrefs.SetInt("ChromaticAberration", chromatic.active ? 1 : 0);
-                ChromaticButton.sprite = ButtonState[chromatic.active ? 1 : 0];
-                PlayerPrefs.Save();
-
-            }
-        }
-    }
-
     private void OnEnable()
-    {
-
-        transform.position = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
-        if (postProcessing != null)
-        {
-            Bloom bloom;
-            ChromaticAberration chromaticAberration;
-            postProcessing.profile.TryGetSettings(out bloom);
-            postProcessing.profile.TryGetSettings(out chromaticAberration);
-            if (bloom != null) bloom.active = PlayerPrefs.GetInt("Bloom") == 1;
-            if (chromaticAberration != null) chromaticAberration.active = PlayerPrefs.GetInt("ChromaticAberration") == 1;
-            BloomButton.sprite = ButtonState[bloom.active ? 1 : 0];
-            ChromaticButton.sprite = ButtonState[chromaticAberration.active ? 1 : 0];
-
-        }
+    {        transform.position = new Vector2(Camera.main.pixelWidth / 2, Camera.main.pixelHeight / 2);
     }
 }

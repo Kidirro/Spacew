@@ -229,7 +229,6 @@ public class Enemy_spawner : MonoBehaviour
                 {
                     int Line_spawn = Random.Range(0, Lines_state.Length);
                     while (Lines_state[Line_spawn]!=1) Line_spawn = Random.Range(0, Lines_state.Length);
-
                     Ship.GetComponent<EnemyShipDefault>().line = Line_spawn;                 
                     Ship.transform.position = Lines[Line_spawn].transform.position;
                     Ship.transform.rotation = Quaternion.Euler(0, 0, 180f);
@@ -264,7 +263,8 @@ public class Enemy_spawner : MonoBehaviour
                     {
                         int Line_spawn = Random.Range(0, Lines_state.Length);
                         while (Lines_state[Line_spawn] != 1) Line_spawn = Random.Range(0, Lines_state.Length);
-                       
+
+                        Ship.GetComponent<EnemyShipDefault>().line = Line_spawn;
                         Ship.transform.position = Lines[Line_spawn].transform.position;
                         shoot = false;
                         Ship.SetActive(true);

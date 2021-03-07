@@ -95,4 +95,10 @@ public class Ship1 : DefaultShip
             yield return new WaitForSeconds((float)GameManager.fire_rate);
         }
     }
+
+    private void OnDestroy()
+    {
+        foreach (GameObject ammo in AmmoPool) Destroy(ammo);
+        AmmoPool = null;
+    }
 }

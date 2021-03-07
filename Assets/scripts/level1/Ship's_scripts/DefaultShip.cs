@@ -83,6 +83,7 @@ public class DefaultShip : MonoBehaviour
             Vector2 point = cam.ScreenToWorldPoint(new Vector2(mousePos.x, mousePos.y));
             if (((new Vector2(player.transform.position.x, player.transform.position.y) - point).magnitude < Range || following))
             {
+                rg2D.velocity = Vector2.zero;
                 point.x = Mathf.Clamp(point.x,Camera.main.ViewportToWorldPoint(new Vector2(0.05f, 0.05f)).x, Camera.main.ViewportToWorldPoint(new Vector2(0.95f, 0.95f)).x);
                 point.y = Mathf.Clamp(point.y,Camera.main.ViewportToWorldPoint(new Vector2(0.05f, 0.05f)).y, Camera.main.ViewportToWorldPoint(new Vector2(0.95f, 0.95f)).y);
                 player.transform.position = point;

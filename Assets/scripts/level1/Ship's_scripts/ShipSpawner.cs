@@ -131,8 +131,12 @@ public class ShipSpawner : MonoBehaviour
                 }
             }
 
+            if (GameManager.skills[0].state >= 2)
+            {
+                GameManager.Shield_using = GameManager.skills[0].state >= 2;
+                GameManager.max_shield = GameManager.defaultshield * (GameManager.skills[0].state - 1);
+            }
 
-            GameManager.Shield_using = GameManager.skills[0].state >= 2;
             fix_shield();
 
         }
@@ -170,7 +174,10 @@ public class ShipSpawner : MonoBehaviour
         GameManager.shield = GameManager.max_shield;
         GameManager.last_hit = 0;
         last_touch = -1;
-
+        foreach(GameObject ammo in GameObject.FindGameObjectsWithTag("Bullet"))
+        {
+            ammo.SetActive(false);
+        }
         for (int i = 0; i < GameManager.skills.Length; i++)
         {
             GameManager.skills[i].state = GameManager.skills[i].def_state;

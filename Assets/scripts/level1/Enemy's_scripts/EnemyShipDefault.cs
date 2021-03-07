@@ -57,7 +57,8 @@ public class EnemyShipDefault : MonoBehaviour
             if (i>=0 & i < Enemy_spawner.Lines_state.Length)
             {
                 Enemy_spawner.Lines_state[i]--;
-               
+                Debug.LogFormat("{0}:{1}", i, Enemy_spawner.Lines_state[i]);
+
             }
         }
         health = def_health;
@@ -128,7 +129,7 @@ public class EnemyShipDefault : MonoBehaviour
             if (i >= 0 & i < Enemy_spawner.Lines_state.Length)
             {
                 Enemy_spawner.Lines_state[i]++;
-
+                Debug.LogFormat("{0}:{1}",i,Enemy_spawner.Lines_state[i]);
             }
         }
     }
