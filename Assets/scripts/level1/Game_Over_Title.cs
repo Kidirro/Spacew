@@ -12,9 +12,13 @@ public class Game_Over_Title : MonoBehaviour
     public Text Score;
     public GameObject pause_menu;
 
+    private Ad ads;
+
     [Header("Spawners")]
     public ShipSpawner ShipSpawnerManager;
     private Enemy_spawner EnemyShipSpawner;
+
+    public GameObject Respawn;
 
     public AudioMixer Mixer;
     public AudioMixerSnapshot Normal;
@@ -25,10 +29,29 @@ public class Game_Over_Title : MonoBehaviour
     public void Awake()
     {
         EnemyShipSpawner = GameObject.FindObjectOfType<Enemy_spawner>();
+        ads = GameObject.FindObjectOfType<Ad>();
+    }
+
+    public void Respawn_Ad()
+    {
+
+        ShipSpawnerManager.ClearAll();
+        Respawn.SetActive(false);
+        Debug.LogWarning(Respawn.activeSelf);
+        ads.ShowRewardedVideo();
+        GameManager.Can_Respawn = false;
+    }
+
+    public void Ship_break()
+    {
+        Time.timeScale = 0f;
+        if (GameManager.Can_Respawn & Ad.ad_ready) Respawn.SetActive(true);
+        else showMenu();
     }
 
     public void showMenu()
-    {     
+    {
+        Respawn.SetActive(false);
         pause_menu.SetActive(true);
         if (GameManager.score > PlayerPrefs.GetInt("Records"))
         {
@@ -62,6 +85,7 @@ public class Game_Over_Title : MonoBehaviour
 
     public void Restart()
     {
+        GameManager.Can_Respawn = true;
         Time.timeScale = 1f;
         GameManager.score = 0;
         ShipSpawnerManager.ClearAll();

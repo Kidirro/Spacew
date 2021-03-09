@@ -106,10 +106,15 @@ public class Main_menu_UI : MonoBehaviour
         {
             Game_Started = true;
             Animator clips = GetComponent<Animator>();
-            clips.Play("Open_Gate", -1, 0);
+             //clips.Play("Open_Gate", -1, 0);
+            clips.keepAnimatorControllerStateOnDisable = true;
+          
 
-            yield return new WaitForSeconds(clips.runtimeAnimatorController.animationClips[0].length / clips.GetFloat("Multiplier"));
+            clips.SetBool("StartAnim", true);
+            yield return new WaitForSeconds((float)(clips.runtimeAnimatorController.animationClips[0].length) / clips.GetFloat("Multiplier"));
+           
             shipSpawner.start_game();
+            clips.SetBool("StartAnim", false);
 
             GameManager.gameOver = false;
             Game_Started = false;

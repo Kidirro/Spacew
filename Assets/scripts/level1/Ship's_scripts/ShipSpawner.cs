@@ -108,14 +108,13 @@ public class ShipSpawner : MonoBehaviour
     {
         if (_player)
         {
-            if (_player.activeSelf == false && title.pause_menu.activeSelf == false)
+            if (_player.activeSelf == false && ((title.pause_menu.activeSelf) == false & (title.Respawn.activeSelf==false)))
             {
-                death_sound.Play();
-                _player.SetActive(false);
-                title.showMenu();
-                bg_music.pitch = 0.8f;
-                bg_music.volume = 0.05f;
-
+                    title.Ship_break();
+                    death_sound.Play();
+                    bg_music.pitch = 0.8f;
+                    bg_music.volume = 0.05f;
+                Debug.LogError("+");
             }
 
             if (_player.activeSelf & Time.timeScale ==1f)

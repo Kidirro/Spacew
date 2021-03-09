@@ -32,6 +32,8 @@ static public class GameManager
     static public bool wall_trigger;
     static public bool[] Unlocked_ship;
 
+    static public bool Can_Respawn=true;
+
     static public Class_Skill[] skills;
 
     static public bool Using_sound;

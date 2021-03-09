@@ -12,6 +12,7 @@ public class Ad : MonoBehaviour, IUnityAdsListener
 
     Button myButton;
     public string myPlacementId = "rewardedVideo";
+    static public bool ad_ready;
    
 
     void Start()
@@ -21,7 +22,7 @@ public class Ad : MonoBehaviour, IUnityAdsListener
 
         // Set interactivity to be dependent on the Placement’s status:
         myButton.interactable = Advertisement.IsReady(myPlacementId);
-
+        ad_ready = false;
         // Map the ShowRewardedVideo function to the button’s click listener:
         if (myButton) myButton.onClick.AddListener(ShowRewardedVideo);
         // Initialize the Ads listener and service:
@@ -29,10 +30,9 @@ public class Ad : MonoBehaviour, IUnityAdsListener
     }
 
     // Implement a function for showing a rewarded video ad:
-    void ShowRewardedVideo()
+    public void ShowRewardedVideo()
     {
         Advertisement.Show(myPlacementId);
-        PlayerPrefs.SetInt("First_play", 0);
     }
 
     // Implement IUnityAdsListener interface methods:
@@ -42,11 +42,13 @@ public class Ad : MonoBehaviour, IUnityAdsListener
         if (placementId == myPlacementId)
         {
             myButton.interactable = true;
+            ad_ready = true;
         }
     }
 
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
+        Time.timeScale = 1f;
         // Define conditional logic for each ad completion status:
         if (showResult == ShowResult.Finished)
         {
