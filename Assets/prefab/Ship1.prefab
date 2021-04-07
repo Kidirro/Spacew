@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d50d6470b7da94946b53cddee9242c38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaulthealth: 5
+  defaulthealth: 10
   unlocked_skills: 
   pos_fire1: {fileID: 7648035595389238063}
   pos_fire2: {fileID: 7648035595148161860}

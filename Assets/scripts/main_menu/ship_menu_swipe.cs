@@ -63,6 +63,7 @@ public class ship_menu_swipe : MonoBehaviour// required interface when using the
 
     float EasingLeaner(float x)
     {
-        return x*Mathf.Pow(moving_timer*10,2);
+        return x*Mathf.Pow(moving_timer*2,2);
     }
+
 }

@@ -66,6 +66,24 @@ public class Enemy_spawner : MonoBehaviour
     [Tooltip("Время, после которого начнется спавн")]
     public float start_time2;
 
+    [Header("3 тип кораблей")]
+    [Tooltip("Максимальное количество объектов ")]
+    public int Ship3PoolLimit;
+    [Tooltip("Ссылка на обьект")]
+    public GameObject Ship3;
+    private List<GameObject> Ship3Pool;
+    [Tooltip("Начальная скорость спавна (1 обьект в t секунд)")]
+    public double default_fire_rate3 = 5;
+    [SerializeField]
+    [Tooltip("Текущая скорость спавна")]
+    private double fire_rate3;
+    [Range(0, 1)]
+    [Tooltip("Коэффициент смены скорости спавна")]
+    public float koef3;
+    [Min(0)]
+    [Tooltip("Время, после которого начнется спавн")]
+    public float start_time3;
+
     static public int[] Lines_state;
 
     public void Awake()
@@ -125,6 +143,19 @@ public class Enemy_spawner : MonoBehaviour
             Ship2Pool.Add(ShipObject);
             
         }
+
+        if (Ship3Pool == null)
+        {
+            Ship3Pool = new List<GameObject>();
+        }
+        for (int i = 0; i < Ship2PoolLimit; i++)
+        {
+            GameObject ShipObject = Instantiate(Ship3);
+            ShipObject.transform.position = transform.position;
+            ShipObject.SetActive(false);
+            Ship3Pool.Add(ShipObject);
+
+        }
     }
 
     public void ClearAll()
@@ -133,6 +164,14 @@ public class Enemy_spawner : MonoBehaviour
         meteor_fire_rate = meteor_default_fire_rate;
         fire_rate1 = default_fire_rate1;
         fire_rate2 = default_fire_rate2;
+        fire_rate3 = default_fire_rate3;
+        ClearEnemy();
+        StartCoroutine(Start_spawn());
+    }
+
+
+    public void ClearEnemy()
+    {
         foreach (GameObject Ship in Ship1Pool)
         {
             Ship.SetActive(false);
@@ -141,7 +180,16 @@ public class Enemy_spawner : MonoBehaviour
         {
             Ship.SetActive(false);
         }
-        StartCoroutine(Start_spawn());
+        foreach (GameObject Ship in Ship3Pool)
+        {
+            Ship.SetActive(false);
+        }
+
+        foreach(Meteor_behavior mt in GameObject.FindObjectsOfType<Meteor_behavior>())
+        {
+            if (mt.meteor_array) mt.gameObject.SetActive(false);
+            else Destroy(mt);
+        }
     }
 
     IEnumerator Start_spawn()
@@ -149,6 +197,7 @@ public class Enemy_spawner : MonoBehaviour
         StartCoroutine(WaitForSpawnMeteor());
         StartCoroutine(WaitForSpawnShip1());
         StartCoroutine(WaitForSpawnShip2());
+        StartCoroutine(WaitForSpawnShip3());
         yield break;
     }
 
@@ -170,6 +219,13 @@ public class Enemy_spawner : MonoBehaviour
     {
         yield return new WaitForSeconds(start_time2);
         StartCoroutine(Spawn2Ship());
+        yield break;
+    }
+
+    IEnumerator WaitForSpawnShip3()
+    {
+        yield return new WaitForSeconds(start_time3);
+        StartCoroutine(Spawn3Ship());
         yield break;
     }
 
@@ -276,5 +332,41 @@ public class Enemy_spawner : MonoBehaviour
             }
         }
     }
+
+    IEnumerator Spawn3Ship()
+    {
+        while (true)
+        {
+            int i = 0;
+            bool shoot = true;
+            while (shoot & i < Ship3PoolLimit)
+            {
+                GameObject Ship = Ship3Pool[i];
+                if (shoot & Ship.activeSelf == false)
+                {
+                    foreach (int j in Lines_state)
+                    {
+
+                        if (j == 1) { shoot = true; break; }
+                        shoot = false;
+                    }
+                    if (shoot & Ship.activeSelf == false)
+                    {
+                        int Line_spawn = Random.Range(0, Lines_state.Length);
+                        while (Lines_state[Line_spawn] != 1) Line_spawn = Random.Range(0, Lines_state.Length);
+
+                        Ship.GetComponent<EnemyShipDefault>().line = Line_spawn;
+                        Ship.transform.position = Lines[Line_spawn].transform.position;
+                        shoot = false;
+                        Ship.SetActive(true);
+                    }
+                    else i++;
+                }
+                fire_rate2 = fire_rate3 * koef3;
+                yield return new WaitForSeconds((float)fire_rate3);
+            }
+        }
+    }
+
 
 }

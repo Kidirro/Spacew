@@ -180,8 +180,8 @@ MonoBehaviour:
   def_health: 5
   rb: {fileID: 0}
   speed: 1000
-  damage_p: 3
-  price_p: 2
+  damage: 3
+  price: 3
   AmmoPoolLimit: 5
   Ammo: {fileID: 8751530339073776873, guid: 4ab11d9323c3c4d4d80ab55c523a78db, type: 3}
   fire_rate: 2

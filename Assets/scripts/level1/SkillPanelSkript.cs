@@ -14,13 +14,10 @@ public class SkillPanelSkript : MonoBehaviour
     [HideInInspector]
     public bool SkillUsable;
 
+    [Header("Shield skill")]
+
     [Range(0, 20)]
-    [Header("Drone skill")]
-    public float Drone_time;
-    public GameObject drone_pref;
-    public GameObject Drone_skill_prfab;
-    [Range(0, 20)]
-    public float Drone_cooldown;
+    public float Shield_cooldown;
 
     [Header("Invisibility Skill")]
     public float Invs_time;
@@ -31,6 +28,10 @@ public class SkillPanelSkript : MonoBehaviour
     [Range(0, 20)]
     public float shtg_cooldown;
     public Ship3 ship3_obj;
+
+    [Header("Drone Skill")]
+    [Range(0, 20)]
+    public float Drone_cooldown;
 
     private UI_Interface bars;
     private float[] cds;
@@ -64,18 +65,21 @@ public class SkillPanelSkript : MonoBehaviour
                 Fire_Drones[active_Fire_drones].SetActive(true);
                 Fire_Drones[active_Fire_drones].transform.position = player.transform.position;
                 active_Fire_drones++;
+                PlayerPrefs.SetInt("Ship3_prog", PlayerPrefs.GetInt("Ship3_prog") + 1);
             }
             if (GameManager.skills[4].state - 1 > active_Shield_drones)
             {
                 Shield_Drones[active_Shield_drones].SetActive(true);
                 Shield_Drones[active_Shield_drones].transform.position = player.transform.position;
                 active_Shield_drones++;
+                PlayerPrefs.SetInt("Ship3_prog", PlayerPrefs.GetInt("Ship3_prog") + 1);
             }     
             if (GameManager.skills[3].state - 1 > active_Rocket_drones)
             {
                 Rocket_Drones[active_Rocket_drones].SetActive(true);
                 Rocket_Drones[active_Rocket_drones].transform.position = player.transform.position;
                 active_Rocket_drones++;
+                PlayerPrefs.SetInt("Ship3_prog", PlayerPrefs.GetInt("Ship3_prog") + 1);
             }
         }
         else
@@ -135,10 +139,11 @@ public class SkillPanelSkript : MonoBehaviour
             Shield_Drones.Add(FireObject);
         }
 
-        cds = new float[3];
+        cds = new float[GameManager.number_ship];
         cds[0] = Invs_cooldown;
-        cds[1] = Drone_cooldown;
+        cds[1] = Shield_cooldown;
         cds[2] = shtg_cooldown;
+        cds[3] = Drone_cooldown;
         if (objects == null)
         {
             objects = new List<GameObject>();
@@ -174,15 +179,33 @@ public class SkillPanelSkript : MonoBehaviour
                 case 2:
                     StartCoroutine(Shotgun());
                     break;
+                case 3:
+                    StartCoroutine(Drone_process());
+                    break;
             }
 
         }
     }
 
 
+    IEnumerator Drone_process()
+    {
+        if ((GameManager.skills[2].state < GameManager.skills[2].max_grade + 1) || (GameManager.skills[3].state < GameManager.skills[3].max_grade + 1) || (GameManager.skills[4].state < GameManager.skills[4].max_grade + 1))
+        {
+            int i = Random.Range(2, 5);
+            while (GameManager.skills[i].state >= GameManager.skills[i].max_grade + 1) i = Random.Range(2, 5);
+            Debug.Log(i);
+            GameManager.skills[i].state += 1;
+            SkillUsable = false;
+            StartCoroutine(Cooldown());
+        }
+        yield break;
+
+    }
+
     IEnumerator FixShield_process()
     {
-        GameManager.shield = GameManager.max_shield;
+        GameManager.shield += GameManager.max_shield;
         SkillUsable = false;
         StartCoroutine(Cooldown());
         yield break;

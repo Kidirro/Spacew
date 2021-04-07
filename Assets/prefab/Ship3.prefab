@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce0d9262ec316ce4ba3ef1426a8ac2e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaulthealth: 5
+  defaulthealth: 10
   unlocked_skills: 01000000
 --- !u!1 &6781969323999835516
 GameObject:

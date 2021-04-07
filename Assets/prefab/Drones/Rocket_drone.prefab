@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5674071341845543801}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5674071341870589565}
   - component: {fileID: 5674071341870589564}
   - component: {fileID: 5674071341870589568}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Rocket_drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

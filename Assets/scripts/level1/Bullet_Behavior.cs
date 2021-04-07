@@ -9,7 +9,7 @@ public class Bullet_Behavior : MonoBehaviour
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(-Mathf.Sin(transform.rotation.eulerAngles.z * Mathf.PI / 180) * speed, Mathf.Cos(transform.rotation.eulerAngles.z * Mathf.PI / 180) * speed));
+        rb.AddForce(transform.up * speed);
     }
 
     private void Update()

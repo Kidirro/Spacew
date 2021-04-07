@@ -4,41 +4,13 @@ using UnityEngine;
 
 public class EnemyShipBehavior : EnemyShipDefault
 {
-    protected override void Awake()
-    {
-        base.Awake();
-    }
-
     protected override void OnEnable()
     {
         base.OnEnable();
         co = Shooting();
         StartCoroutine(co);
     }
-    protected override void death()
-    {
-        base.death();
-    }
-
-    protected override void OnCollisionEnter2D(Collision2D other)
-    {
-        base.OnCollisionEnter2D(other);
-    }
-
-    protected override void OnParticleCollision(GameObject other)
-    {
-        base.OnParticleCollision(other);
-    }
-
-    protected override void OnTriggerEnter2D(Collider2D other)
-    {
-        base.OnTriggerEnter2D(other);
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
+   
     IEnumerator Shooting()
     {
         while (true)

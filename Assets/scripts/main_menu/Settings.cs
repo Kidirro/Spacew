@@ -14,6 +14,7 @@ public class Settings : MonoBehaviour
     public PostProcessVolume postProcessing;
     public Sprite[] ButtonState;
     public Sprite[] SoundState;
+    public Text Version;
 
     public AudioMixer Mixer;
 
@@ -21,6 +22,7 @@ public class Settings : MonoBehaviour
     {
         OnEnable();
         gameObject.SetActive(false);
+        Version.text = Application.version;
     }
 
     void OnEnable()

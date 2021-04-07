@@ -5,14 +5,12 @@ using UnityEngine.UI;
 
 public class Desctription : MonoBehaviour
 {
-    public GameObject New_notif;
-
     public Text Title;
-    private string[] names = { "Базовый корабль", "Щитовой корабль", "Ракетный корабль" };
+    private string[] names = { "AM \"Scout\"", "AM \"Crusader\"", "AM \"Alchemist\"", "USG \"Ishimura\"" };
 
     public Text Decs;
-    private string[] decs_str = { "Самый первый корабль исследователей \n Оснащен базовыми орудиями дальнего боя.", "Мощный корабль Альянса \n Оснащен мощным щитом, позволяющим выдерживать большое количество урона. \n Вес корабля не позволяет ему поставить оружие сначала.", "Мощный оружейный корабль Альянса \n Оснащен мощной залповой установкой, которая позволяет наносить много урона по площади."};
-    private string[] unlocking = { "Описание разблокировки первого корабля", "Уничтожьте корпусом корабля 15 кораблей", "Приземлитесь в дружественную станцию" };
+    private string[] decs_str = { "Самый первый корабль исследователей \n Оснащен базовыми орудиями дальнего боя.", "Мощный корабль Альянса \n Оснащен мощным щитом, позволяющим выдерживать большое количество урона. \n Вес корабля не позволяет ему поставить оружие сначала.", "Мощный оружейный корабль Альянса \n Оснащен мощной залповой установкой, которая позволяет наносить много урона по площади.","Мощный корабль, позволяющий создавать дронов прямо в полете."};
+    private string[] unlocking = { "Описание разблокировки первого корабля", "Проведите все исследование над щитами", "Приземлитесь в дружественную станцию","Создайте 30 дронов" };
 
     private void OnEnable()
     {
@@ -27,7 +25,6 @@ public class Desctription : MonoBehaviour
             Decs.text = unlocking[GameManager.chosen_ship];
         }
 
-        New_notif.SetActive(GameManager.chosen_ship == PlayerPrefs.GetInt("New_Ship"));
         if (GameManager.chosen_ship == PlayerPrefs.GetInt("New_Ship")) PlayerPrefs.SetInt("New_Ship", -1);
     }
 

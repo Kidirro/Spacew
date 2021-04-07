@@ -48,4 +48,10 @@ public class Station_spawner : MonoBehaviour
             Debug.Log("Menu Showed");
         }
     }
+
+    public void ClearAll()
+    {
+        default_fire_rate = 30;
+        last_fire = 30;
+    }
 }

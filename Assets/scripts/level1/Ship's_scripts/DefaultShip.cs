@@ -62,12 +62,10 @@ public class DefaultShip : MonoBehaviour
         {
             if (GameManager.skills[1].state == 2 & co == null)
             {      
-                Debug.Log("Start_fire");
                 co = Rocket_shot();
                 StartCoroutine(co);
 
             }
-
             move();
             death();
         }

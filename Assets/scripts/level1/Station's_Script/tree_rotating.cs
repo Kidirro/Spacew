@@ -133,6 +133,14 @@ public class tree_rotating : MonoBehaviour
     {
         if (GameManager.skills[Chosen].state >= 1 & GameManager.skills[Chosen].state - 1 < GameManager.skills[Chosen].max_grade )
         {
+            switch (Chosen)
+            {
+                case 7:
+                    PlayerPrefs.SetInt("Ship1_prog", PlayerPrefs.GetInt("Ship1_prog") + 1);
+                    PlayerPrefs.Save();
+                    break;
+            }
+
             GameManager.skills[Chosen].state += 1;
             Chosen = -1;
             menu.SetActive(false);

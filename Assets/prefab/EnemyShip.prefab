@@ -187,11 +187,12 @@ MonoBehaviour:
   def_health: 5
   rb: {fileID: 0}
   speed: 500
-  damage_p: 1
-  price_p: 2
+  damage: 3
+  price: 2
   AmmoPoolLimit: 5
   Ammo: {fileID: 8751530339073776873, guid: 4ab11d9323c3c4d4d80ab55c523a78db, type: 3}
   fire_rate: 3
+  line: 0
   size: 1
 --- !u!50 &8032359997923205255
 Rigidbody2D:

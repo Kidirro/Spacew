@@ -2,59 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Meteor_behavior : MonoBehaviour
+public class Meteor_behavior : EnemyDefault
 {
-    private Rigidbody2D rb;
-    public int default_speed;
     private Enemy_spawner ES;
     public bool meteor_array = false;
 
     public GameObject meteor;
-    public int default_health=5;
-    private GameObject ExplosionObject;
     public Vector2 Vector_pos;
 
-    [Range(1, 5)]
-    public int damage_p;
-    static public int damage;
-
-    [Range(1, 5)]
-    public int price_p;
-    static public int price;
 
     [HideInInspector]
     public UnityEngine.Object explosion;
-    private GameObject Last;
-    public int health;
-
-    public void Awake()
-    {
-        damage = damage_p;
-        price = price_p;
-        Last = this.gameObject;
-        
-    }
 
     public void Start()
     {
         ES = GameObject.FindObjectOfType<Enemy_spawner>();
         if (!meteor_array)
         {
-            health = (int) (default_health* transform.localScale.x);
+            health = (int) (def_health* transform.localScale.x);
+            multiplier = (int)transform.localScale.x;
             rb = GetComponent<Rigidbody2D>();
-            rb.AddForce(new Vector2(0, -default_speed ));
+            rb.AddForce(new Vector2(0, -speed ));
         }
     }
 
-    private void OnEnable()
+    override protected void OnEnable()
     {
-        health = (int)(default_health * transform.localScale.x);
+        base.OnEnable();
+        health = (int)(def_health * transform.localScale.x);
+        multiplier = (int)transform.localScale.x;
         rb = GetComponent<Rigidbody2D>();
-        rb.AddForce(new Vector2(0, -default_speed ));
+        rb.velocity = new Vector2(0, -speed);
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         if (meteor.transform.position.y - Camera.main.ViewportToWorldPoint(new Vector2(0, 0)).y < -10)
         {
             if (meteor_array)
@@ -66,21 +49,17 @@ public class Meteor_behavior : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
-        if (health <= 0)
-        {
-            Death();
-        }
         if (gameObject.activeSelf)
         {
             Vector_pos = gameObject.transform.position;
         }
     }
 
-    public void Death()
+    protected override void death()
     {
+       
         if (gameObject != null)
         {
-            GameManager.score += price;
             int j = 0;
             bool shoot = true;
             while (shoot & j <ES.MeteorPSLimit)
@@ -109,48 +88,12 @@ public class Meteor_behavior : MonoBehaviour
                 meteor.SetActive(false);
             }
         }
+        base.death();
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Bullet"))
-        {
-            health = health - 1;
-            other.gameObject.SetActive(false);
-        }
-        if (other.gameObject.CompareTag("Shield"))
-        {
-            Death();
-        }
-    }
 
-    private void OnParticleCollision(GameObject other)
+    protected override void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("GausBullet") && Last != other.gameObject)
-        {
-            health -= 2;
-            Last = other.gameObject;
-        }
-
-        if (other.gameObject.CompareTag("Shield") || other.gameObject.CompareTag("Player"))
-        {
-            GameManager.take_damage(0, 0, false, meteor);
-            Death();
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            PlayerPrefs.SetInt("Ship1_prog", PlayerPrefs.GetInt("Ship1_prog")+1 );
-            PlayerPrefs.Save();
-            Debug.Log(PlayerPrefs.GetInt("Ship1_prog"));
-        }
-        if (other.gameObject.CompareTag("Shield")|| other.gameObject.CompareTag("Player"))
-        {
-            GameManager.take_damage(damage, price,false, meteor);
-            Death();
-        }
+        base.OnCollisionEnter2D(other);
     }
 }

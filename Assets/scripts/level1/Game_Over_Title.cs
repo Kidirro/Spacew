@@ -17,6 +17,7 @@ public class Game_Over_Title : MonoBehaviour
     [Header("Spawners")]
     public ShipSpawner ShipSpawnerManager;
     private Enemy_spawner EnemyShipSpawner;
+    private Station_spawner Station;
 
     public GameObject Respawn;
 
@@ -28,6 +29,7 @@ public class Game_Over_Title : MonoBehaviour
 
     public void Awake()
     {
+        Station = GameObject.FindObjectOfType<Station_spawner>();
         EnemyShipSpawner = GameObject.FindObjectOfType<Enemy_spawner>();
         ads = GameObject.FindObjectOfType<Ad>();
     }
@@ -36,8 +38,8 @@ public class Game_Over_Title : MonoBehaviour
     {
 
         ShipSpawnerManager.ClearAll();
+        EnemyShipSpawner.ClearEnemy();
         Respawn.SetActive(false);
-        Debug.LogWarning(Respawn.activeSelf);
         ads.ShowRewardedVideo();
         GameManager.Can_Respawn = false;
     }
@@ -64,21 +66,25 @@ public class Game_Over_Title : MonoBehaviour
         Death.TransitionTo(0.5f);
         GameManager.gameOver = true;
         
-        //Изменить количество метеоритов тут
-        if (!GameManager.Unlocked_ship[1] && PlayerPrefs.GetInt("Ship1_prog")>=15)
+        if (!GameManager.Unlocked_ship[1] && PlayerPrefs.GetInt("Ship1_prog")>=1)
         {
             PlayerPrefs.SetInt("New_Ship", 1);
             GameManager.Unlocked_ship[1] = true;
-            PlayerPrefs.SetInt("Unlocked_ships", (int)Mathf.Pow(10, GameManager.Unlocked_ship.Length - 1 -1) + PlayerPrefs.GetInt("Unlocked_ships"));
             New_Ship.gameObject.SetActive(true);
+
         }
 
-        //Изменить количество станций тут
         if (!GameManager.Unlocked_ship[2] && PlayerPrefs.GetInt("Ship2_prog") >= 1)
         {
             PlayerPrefs.SetInt("New_Ship", 2);
             GameManager.Unlocked_ship[2] = true;
-            PlayerPrefs.SetInt("Unlocked_ships", (int)Mathf.Pow(10, GameManager.Unlocked_ship.Length - 2 - 1) + PlayerPrefs.GetInt("Unlocked_ships"));
+            New_Ship.gameObject.SetActive(true);
+        }
+        
+        if (!GameManager.Unlocked_ship[3] && PlayerPrefs.GetInt("Ship3_prog") >= 30)
+        {
+            PlayerPrefs.SetInt("New_Ship", 3);
+            GameManager.Unlocked_ship[3] = true;
             New_Ship.gameObject.SetActive(true);
         }
     }
@@ -89,15 +95,17 @@ public class Game_Over_Title : MonoBehaviour
         Time.timeScale = 1f;
         GameManager.score = 0;
         ShipSpawnerManager.ClearAll();
+        ShipSpawnerManager.ClearSkill();
         EnemyShipSpawner.ClearAll();
+        Station.ClearAll();
         New_Ship.gameObject.SetActive(false);
-        pause_menu.SetActive(false);
         Normal.TransitionTo(0.5f);
         GameManager.gameOver = false;
         foreach (GameObject Bullet in GameObject.FindGameObjectsWithTag("EnemyBullet"))
         {
             Bullet.SetActive(false);
         }
+        pause_menu.SetActive(false);
     }
 
     private void OnEnable()

@@ -45,7 +45,7 @@ public class ShipSpawner : MonoBehaviour
         Death.TransitionTo(0.5f);
         Playing_objs.SetActive(false);
         Main_menu_objs.SetActive(true);
-        Time.timeScale = 0.2f;
+        Time.timeScale = 1f;
     }
 
     public void start_game()
@@ -66,7 +66,7 @@ public class ShipSpawner : MonoBehaviour
 
     private void Awake()
     {
-
+        Application.targetFrameRate = 60;
         for (int i = 0; i <= 3; i++)
         {
             GameObject Wall = Instantiate(LevelWall) as GameObject;
@@ -114,7 +114,6 @@ public class ShipSpawner : MonoBehaviour
                     death_sound.Play();
                     bg_music.pitch = 0.8f;
                     bg_music.volume = 0.05f;
-                Debug.LogError("+");
             }
 
             if (_player.activeSelf & Time.timeScale ==1f)
@@ -145,9 +144,10 @@ public class ShipSpawner : MonoBehaviour
     {
         if (GameManager.last_hit + GameManager.shield_rest_time < ShipSpawner.time_count)
         {
-            if (GameManager.shield <= GameManager.max_shield)
+            if (GameManager.shield < GameManager.max_shield)
             {
-                GameManager.shield += GameManager.max_shield * 0.01;
+                GameManager.shield +=(GameManager.skills[6].state>=2)? GameManager.max_shield * 0.01:GameManager.max_shield * 0.01* GameManager.max_shield;
+                if (GameManager.shield > GameManager.max_shield) GameManager.shield = GameManager.max_shield;
             }
         }
     }
@@ -177,10 +177,25 @@ public class ShipSpawner : MonoBehaviour
         {
             ammo.SetActive(false);
         }
+        _player.SetActive(true);
+    }
+
+    public void ClearSkill()
+    {
+        GameManager.Shield_using = false;
         for (int i = 0; i < GameManager.skills.Length; i++)
         {
             GameManager.skills[i].state = GameManager.skills[i].def_state;
         }
-        _player.SetActive(true);
+
+        switch (GameManager.chosen_ship)
+        {
+            case 1:
+                GameManager.skills[0].state = 2;
+                break;
+            case 2:
+                GameManager.skills[1].state = 2;
+                break;
+        }
     }
 }

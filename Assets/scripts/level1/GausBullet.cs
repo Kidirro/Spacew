@@ -31,7 +31,7 @@ public class GausBullet : MonoBehaviour
     private void OnEnable()
     {
         rgb2 = GetComponent<Rigidbody2D>();
-        rgb2.AddForce(new Vector2(-Mathf.Sin(transform.rotation.eulerAngles.z * Mathf.PI / 180) * speed, Mathf.Cos(transform.rotation.eulerAngles.z * Mathf.PI / 180) * speed));
+        rgb2.AddForce(transform.up * speed);
     }
 
     private void Update()
