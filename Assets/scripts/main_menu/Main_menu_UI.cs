@@ -32,6 +32,10 @@ public class Main_menu_UI : MonoBehaviour
             PlayerPrefs.SetInt("SoundOn", 1);
             PlayerPrefs.SetInt("PlayerShip0", 1);
         }
+        else if (PlayerPrefs.GetInt("PlayerShip1") != 1)
+        {
+            ClearShip();
+        }
         PlayerPrefs.SetInt("First_play",-1);
         GameManager.Unlocked_ship = new bool[Ships.Length];
         ReadShips();
@@ -87,14 +91,7 @@ public class Main_menu_UI : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.KeypadMinus))
         {
-            for (int i = 1; i < GameManager.Unlocked_ship.Length; i++)
-            {
-                GameManager.Unlocked_ship[i] = false;
-                PlayerPrefs.SetInt("Ship" + i + "_prog", 0);
-                PlayerPrefs.SetInt("PlayerShip" + i, 0);
-            }
-            WriteShips();
-            Debug.Log("Cleared!");
+            ClearShip();
         }
         
     }
@@ -128,6 +125,18 @@ public class Main_menu_UI : MonoBehaviour
             GameManager.chosen_ship = 0;
         }
         else GameManager.chosen_ship++;
+    }
+
+    void ClearShip()
+    {
+        for (int i = 1; i < GameManager.Unlocked_ship.Length; i++)
+        {
+            GameManager.Unlocked_ship[i] = false;
+            PlayerPrefs.SetInt("Ship" + i + "_prog", 0);
+            PlayerPrefs.SetInt("PlayerShip" + i, 0);
+        }
+        WriteShips();
+        Debug.Log("Cleared!");
     }
 
     IEnumerator StartGame_IE()
