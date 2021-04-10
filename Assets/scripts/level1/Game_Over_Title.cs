@@ -57,8 +57,7 @@ public class Game_Over_Title : MonoBehaviour
         pause_menu.SetActive(true);
         if (GameManager.score > PlayerPrefs.GetInt("Records"))
         {
-            GameManager.record = GameManager.score;
-            PlayerPrefs.SetInt("Records",GameManager.record);
+            PlayerPrefs.SetInt("Records",GameManager.score);
         }
         Record.text = "" + PlayerPrefs.GetInt("Records");
         Score.text = "" + GameManager.score;

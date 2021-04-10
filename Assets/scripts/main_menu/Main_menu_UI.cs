@@ -60,10 +60,10 @@ public class Main_menu_UI : MonoBehaviour
 
     private void Update()
     {
-        if (GameManager.record != PlayerPrefs.GetInt("Records") )
+        if (GameManager.record != PlayerPrefs.GetInt("Records") || hiscore.text == "New Text")
         {
-            hiscore.text = "Record:" + PlayerPrefs.GetInt("Records");
-            GameManager.record = PlayerPrefs.GetInt("Records");
+            hiscore.text = "Record:" + GameManager.record;
+            PlayerPrefs.SetInt("Records", GameManager.record);
             ReadShips();
         }
         if (ship.sprite != Ships[GameManager.chosen_ship])
