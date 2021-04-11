@@ -45,7 +45,6 @@ public class Station_spawner : MonoBehaviour
             GameManager.gameOver = true;
             title.SetActive(true);
             can_enter = false;
-            Debug.Log("Menu Showed");
         }
     }
 
