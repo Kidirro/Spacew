@@ -24,7 +24,6 @@ public class Game_Over_Title : MonoBehaviour
     public AudioMixer Mixer;
     public AudioMixerSnapshot Normal;
     public AudioMixerSnapshot Death;
-    public PostProcessVolume postProcessing;
     public Text New_Ship;
 
     public void Awake()
@@ -53,6 +52,7 @@ public class Game_Over_Title : MonoBehaviour
 
     public void showMenu()
     {
+        New_Ship.gameObject.SetActive(false);
         Respawn.SetActive(false);
         pause_menu.SetActive(true);
         if (GameManager.score > PlayerPrefs.GetInt("Records"))
@@ -70,7 +70,7 @@ public class Game_Over_Title : MonoBehaviour
             PlayerPrefs.SetInt("New_Ship", 1);
             GameManager.Unlocked_ship[1] = true;
             New_Ship.gameObject.SetActive(true);
-
+            Debug.LogError(GameManager.Unlocked_ship[1]);
         }
 
         if (!GameManager.Unlocked_ship[2] && PlayerPrefs.GetInt("Ship2_prog") >= 1)

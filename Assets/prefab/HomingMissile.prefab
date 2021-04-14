@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 235506015763072580}
   m_Layer: 15
   m_Name: HomingMissile
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   target: {fileID: 0}
   damage: 2
   speed: 40
+  health_default: 1
 --- !u!50 &235506015763072603
 Rigidbody2D:
   serializedVersion: 4

@@ -146,7 +146,7 @@ public class ShipSpawner : MonoBehaviour
         {
             if (GameManager.shield < GameManager.max_shield)
             {
-                GameManager.shield +=(GameManager.skills[6].state>=2)? GameManager.max_shield * 0.01:GameManager.max_shield * 0.01* GameManager.max_shield;
+                GameManager.shield +=(GameManager.skills[6].state>=2)? GameManager.max_shield * 0.01*(GameManager.skills[6].state):GameManager.max_shield * 0.01;
                 if (GameManager.shield > GameManager.max_shield) GameManager.shield = GameManager.max_shield;
             }
         }

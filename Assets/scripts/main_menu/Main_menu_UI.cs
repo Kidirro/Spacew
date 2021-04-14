@@ -58,13 +58,14 @@ public class Main_menu_UI : MonoBehaviour
         Application.Quit();
     }
 
-    private void Update()
+ 
+    private void FixedUpdate()
     {
         if ((GameManager.record != PlayerPrefs.GetInt("Records")) || (hiscore.text == "New Text"))
         {
+            GameManager.record = PlayerPrefs.GetInt("Records");
             hiscore.text = "Record:" + GameManager.record;
             PlayerPrefs.SetInt("Records", GameManager.record);
-            ReadShips();        
         }
         if (ship.sprite != Ships[GameManager.chosen_ship])
         {
@@ -75,6 +76,7 @@ public class Main_menu_UI : MonoBehaviour
         }
         if (PlayerPrefs.GetInt("New_Ship") != 0)
         {
+            Debug.LogError("Writen");
             WriteShips();
             PlayerPrefs.SetInt("New_Ship", 0);
         }
@@ -93,7 +95,6 @@ public class Main_menu_UI : MonoBehaviour
         {
             ClearShip();
         }
-        
     }
 
     private void ChangeImageSize()
@@ -118,24 +119,18 @@ public class Main_menu_UI : MonoBehaviour
         Settings.SetActive(true);
     }
 
-    public void SwitchShip()
-    {
-        if (GameManager.chosen_ship == GameManager.number_ship-1)
-        {
-            GameManager.chosen_ship = 0;
-        }
-        else GameManager.chosen_ship++;
-    }
-
     void ClearShip()
     {
-        for (int i = 1; i < GameManager.Unlocked_ship.Length; i++)
+        if (GameManager.Unlocked_ship != null)
         {
-            GameManager.Unlocked_ship[i] = false;
-            PlayerPrefs.SetInt("Ship" + i + "_prog", 0);
-            PlayerPrefs.SetInt("PlayerShip" + i, 0);
+            for (int i = 1; i < GameManager.Unlocked_ship.Length; i++)
+            {
+                GameManager.Unlocked_ship[i] = false;
+                PlayerPrefs.SetInt("Ship" + i + "_prog", 0);
+                PlayerPrefs.SetInt("PlayerShip" + i, 0);
+            }
+            WriteShips();
         }
-        WriteShips();
         Debug.Log("Cleared!");
     }
 
@@ -145,7 +140,6 @@ public class Main_menu_UI : MonoBehaviour
         {
             Game_Started = true;
             Animator clips = GetComponent<Animator>();
-             //clips.Play("Open_Gate", -1, 0);
             clips.keepAnimatorControllerStateOnDisable = true;
           
 
