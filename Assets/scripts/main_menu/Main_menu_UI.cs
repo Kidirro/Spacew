@@ -32,8 +32,9 @@ public class Main_menu_UI : MonoBehaviour
             PlayerPrefs.SetInt("SoundOn", 1);
             PlayerPrefs.SetInt("PlayerShip0", 1);
         }
-        else if (PlayerPrefs.GetInt("PlayerShip1") != 1)
+        if (PlayerPrefs.GetInt("PlayerShip0") != 1)
         {
+            PlayerPrefs.SetInt("PlayerShip0", 1);
             ClearShip();
         }
         PlayerPrefs.SetInt("First_play",-1);
@@ -156,7 +157,8 @@ public class Main_menu_UI : MonoBehaviour
 
     }
 
-    public void ReadShips() { 
+    public void ReadShips() 
+    {
         for (int i = 0; i < Ships.Length; i++)
         {
             GameManager.Unlocked_ship[i] = PlayerPrefs.GetInt("PlayerShip" + i)==1;
@@ -170,7 +172,7 @@ public class Main_menu_UI : MonoBehaviour
         for (int i = 0; i < Ships.Length; i++)
         {
             PlayerPrefs.SetInt("PlayerShip" + i, ((PlayerPrefs.GetInt("PlayerShip" + i) == 1) || GameManager.Unlocked_ship[i]) ? 1 : 0);
-         }
+        }
         PlayerPrefs.Save();
     }
 }
